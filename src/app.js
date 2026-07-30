@@ -80,9 +80,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", uploadRoutes);
 
 // 4. API Documentation Route (Guarded: Dev only - anti-Information Disclosure)
-if (process.env.NODE_ENV !== "production") {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-}
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // 5. API Routes Mounting
 app.use("/api/auth", authRoutes);
