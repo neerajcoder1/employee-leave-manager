@@ -1,10 +1,20 @@
-# Employee Leave Management System
+# 🚀 Employee Leave Management System <img width="54" height="60" alt="favicon" src="https://github.com/user-attachments/assets/22f27289-bb3b-4ed6-b0c4-670c71843ebd" />
+
 
 > A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
 
-[Live Demo] • [API Docs] • [Report Issue]
+<p align="center">
+  <a href="https://employee-leave-manager-one.vercel.app">🚀 Live Demo</a> •
+  <a href="https://employee-leave-api-62a7.onrender.com/api-docs">📚 API Documentation</a> •
+  <a href="https://github.com/neerajcoder1/employee-leave-manager/issues">🐞 Report Issue</a>
+</p>
 
-Badges...
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js)
+![Express](https://img.shields.io/badge/Express-4.22-black?logo=express)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-4169E1?logo=postgresql)
+![JWT](https://img.shields.io/badge/Auth-JWT-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
@@ -26,55 +36,75 @@ Badges...
 ## 🖼 Screenshots
 
 (Login)
+<img width="959" height="433" alt="image" src="https://github.com/user-attachments/assets/d0276053-f33c-41a5-a2f4-1f3aba4377c0" />
+
 
 (Employee Dashboard)
+<img width="959" height="436" alt="image" src="https://github.com/user-attachments/assets/c75b82de-85eb-466a-8280-d84f35747a96" />
 
 (Manager Dashboard)
+<img width="959" height="437" alt="image" src="https://github.com/user-attachments/assets/3741a4fe-6e8d-4a64-85e0-04a6cb67dd95" />
 
 ---
 
 ## 🏗 System Architecture
 
 Frontend (Vercel)
+<img width="751" height="352" alt="image" src="https://github.com/user-attachments/assets/5c6fe647-b26f-48b3-a2fe-4a7cf7dec960" />
+
         │
         ▼
 Backend (Render)
+<img width="722" height="429" alt="image" src="https://github.com/user-attachments/assets/7392cdf0-5f7a-4685-8b7e-079477cb54fa" />
+
+
         │
         ▼
-Supabase PostgreSQL
+Supabase PostgreSQL 
+<img width="901" height="380" alt="image" src="https://github.com/user-attachments/assets/cf8c8732-172c-4549-9e19-3f79045dfa5f" />
+
 
 ---
 
 ## 🛠 Tech Stack
 
-Frontend:
-- React
-- Vite
-- Tailwind CSS
+### Frontend
+<p>
+  <img src="https://skillicons.dev/icons?i=react,vite,tailwind" />
+</p>
 
-Backend:
-- Node.js
-- Express.js
+### Backend
+<p>
+  <img src="https://skillicons.dev/icons?i=nodejs,express" />
+</p>
 
-Database:
-- PostgreSQL (Supabase)
+### Database
+<p>
+  <img src="https://skillicons.dev/icons?i=postgresql,supabase" />
+</p>
 
-Authentication:
-- JWT
-- bcrypt
+### Authentication
+<p>
+  <img src="https://skillicons.dev/icons?i=jwt" />
+  <img src="https://img.shields.io/badge/bcrypt-Password%20Hashing-blue?style=for-the-badge" />
+</p>
 
-Security:
-- Helmet
-- CORS
-- express-validator
+### Security
+<p>
+  <img src="https://img.shields.io/badge/Helmet-Security-4B32C3?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/CORS-Enabled-28A745?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Express--Validator-Validation-orange?style=for-the-badge" />
+</p>
 
-Documentation:
-- Swagger
+### Documentation
+<p>
+  <img src="https://img.shields.io/badge/Swagger-API%20Docs-85EA2D?style=for-the-badge&logo=swagger" />
+</p>
 
-Deployment:
-- Vercel
-- Render
-- Supabase
+### Deployment
+<p>
+  <img src="https://skillicons.dev/icons?i=vercel,render,supabase" />
+</p>
 
 ---
 
