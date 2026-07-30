@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from "react";
 
 const AuthContext = createContext(null);
 
@@ -10,17 +10,17 @@ export const AuthProvider = ({ children }) => {
   // Initialize authentication state from localStorage on load
   useEffect(() => {
     const bootstrapAuth = () => {
-      const storedToken = localStorage.getItem('token');
-      const storedUser = localStorage.getItem('user');
+      const storedToken = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
 
       if (storedToken && storedUser) {
         try {
           setToken(storedToken);
           setUser(JSON.parse(storedUser));
         } catch (err) {
-          console.error('Error parsing stored user details:', err);
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          console.error("Error parsing stored user details:", err);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
         }
       }
       setLoading(false);
@@ -34,23 +34,26 @@ export const AuthProvider = ({ children }) => {
    */
   const login = async (username, password) => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          // existing options
+        },
+      );
 
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.message || 'Login failed. Please check your credentials.');
+        throw new Error(
+          result.message || "Login failed. Please check your credentials.",
+        );
       }
 
       const { token: jwtToken, user: userData } = result.data;
 
       // Persist in localStorage
-      localStorage.setItem('token', jwtToken);
-      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem("token", jwtToken);
+      localStorage.setItem("user", JSON.stringify(userData));
 
       setToken(jwtToken);
       setUser(userData);
@@ -65,8 +68,8 @@ export const AuthProvider = ({ children }) => {
    * Handle user logout
    */
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setToken(null);
     setUser(null);
   };
@@ -76,16 +79,19 @@ export const AuthProvider = ({ children }) => {
    */
   const register = async (username, password) => {
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        },
+      );
 
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.message || 'Registration failed.');
+        throw new Error(result.message || "Registration failed.");
       }
 
       return { success: true, message: result.message };
@@ -95,7 +101,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, register }}>
+    <AuthContext.Provider
+      value={{ user, token, loading, login, logout, register }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -104,7 +112,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

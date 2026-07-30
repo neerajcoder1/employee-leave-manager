@@ -12,7 +12,7 @@ const DashboardSkeleton = () => (
       className="navbar skeleton-pulse"
       style={{ height: "64px", marginBottom: "2rem" }}
     ></header>
-     <div>
+    <div>
       <div
         className="card-panel skeleton-pulse"
         style={{ height: "140px" }}
@@ -26,10 +26,7 @@ const DashboardSkeleton = () => (
         style={{ height: "140px" }}
       ></div>
     </div>
-    <div
-      className="skeleton-pulse"
-      style={{ height: "400px" }}
-    ></div>
+    <div className="skeleton-pulse" style={{ height: "400px" }}></div>
   </div>
 );
 
@@ -77,10 +74,16 @@ const EmployeeDashboard = () => {
   const fetchData = async () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
-      const profileRes = await fetch("/api/employee/profile", { headers });
+      const profileRes = await fetch(
+        `${import.meta.env.VITE_API_URL}/employee/profile`,
+        { headers },
+      );
       const profileData = await profileRes.json();
 
-      const leavesRes = await fetch("/api/employee/leave", { headers });
+      const leavesRes = await fetch(
+        `${import.meta.env.VITE_API_URL}/employee/leave`,
+        { headers },
+      );
       const leavesData = await leavesRes.json();
 
       if (profileData.success) {
@@ -104,7 +107,9 @@ const EmployeeDashboard = () => {
   const checkNotifications = async () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
-      const res = await fetch("/api/notifications", { headers });
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/notifications`, {
+        headers,
+      });
       const result = await res.json();
 
       if (result.success && result.data.length > 0) {
@@ -113,10 +118,13 @@ const EmployeeDashboard = () => {
           addToast("info", "Status Update", notification.message);
           hasNewNotifications = true;
 
-          fetch(`/api/notifications/${notification.id}/read`, {
-            method: "PATCH",
-            headers,
-          }).catch((err) => console.error("Error marking read:", err));
+          fetch(
+            `${import.meta.env.VITE_API_URL}/notifications/${notification.id}/read`,
+            {
+              method: "PATCH",
+              headers,
+            },
+          ).catch((err) => console.error("Error marking read:", err));
         });
 
         // Refresh dashboard balances and history dynamically when a notification is received
@@ -211,11 +219,14 @@ const EmployeeDashboard = () => {
         formData.append("document", file);
       }
 
-      const response = await fetch("/api/employee/leave", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/employee/leave`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        },
+      );
 
       const result = await response.json();
 
