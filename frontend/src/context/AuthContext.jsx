@@ -37,7 +37,14 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/login`,
         {
-          // existing options
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
         },
       );
 
@@ -51,16 +58,21 @@ export const AuthProvider = ({ children }) => {
 
       const { token: jwtToken, user: userData } = result.data;
 
-      // Persist in localStorage
       localStorage.setItem("token", jwtToken);
       localStorage.setItem("user", JSON.stringify(userData));
 
       setToken(jwtToken);
       setUser(userData);
 
-      return { success: true, user: userData };
+      return {
+        success: true,
+        user: userData,
+      };
     } catch (error) {
-      return { success: false, message: error.message };
+      return {
+        success: false,
+        message: error.message,
+      };
     }
   };
 
