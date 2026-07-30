@@ -1,0 +1,25 @@
+.morphing-text {
+  display: inline-block;
+  position: relative;
+  filter: url(#threshold) blur(0.6px);
+}
+
+.morphing-text span {
+  position: absolute;
+  white-space: pre;
+  top: 0;
+  left: 0;
+  display: inline-block;
+}
+
+.morphing-text .static {
+  opacity: 1;
+}
+
+.morphing-text .disappear {
+  opacity: 0;
+}
+
+.morphing-text .appear {
+  opacity: 0;
+}

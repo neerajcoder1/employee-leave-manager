@@ -33,7 +33,7 @@ const employeeController = {
           balances: {
             annual: profile.annual_leave,
             sick: profile.sick_leave,
-            casual: profile.casual_leave
+            maternity: profile.maternity_leave
           }
         }
       });

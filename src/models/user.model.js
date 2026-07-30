@@ -78,7 +78,7 @@ const User = {
   async getProfileWithBalance(userId) {
     const queryText = `
       SELECT u.id, u.username, u.role, u.created_at,
-             lb.annual_leave, lb.sick_leave, lb.casual_leave
+             lb.annual_leave, lb.sick_leave, lb.maternity_leave
       FROM users u
       LEFT JOIN leave_balances lb ON u.id = lb.employee_id
       WHERE u.id = $1
@@ -93,7 +93,7 @@ const User = {
   async getAllEmployees() {
     const queryText = `
       SELECT u.id, u.username, u.role, u.created_at,
-             lb.annual_leave, lb.sick_leave, lb.casual_leave
+             lb.annual_leave, lb.sick_leave, lb.maternity_leave
       FROM users u
       LEFT JOIN leave_balances lb ON u.id = lb.employee_id
       WHERE u.role = 'employee'

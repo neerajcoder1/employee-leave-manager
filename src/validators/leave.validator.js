@@ -8,7 +8,7 @@ const leaveValidator = {
     body('leaveType')
       .trim()
       .notEmpty().withMessage('Leave type is required')
-      .isIn(['Annual', 'Sick', 'Casual']).withMessage('Leave type must be one of: Annual, Sick, Casual'),
+      .isIn(['Annual', 'Sick', 'Maternity']).withMessage('Leave type must be one of: Annual, Sick, Maternity'),
     
     body('startDate')
       .trim()

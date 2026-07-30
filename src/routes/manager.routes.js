@@ -53,7 +53,7 @@ router.use(authenticate, authorize(['manager']));
  *                         type: integer
  *                       sick_leave:
  *                         type: integer
- *                       casual_leave:
+ *                       maternity_leave:
  *                         type: integer
  *       401:
  *         description: Unauthorized

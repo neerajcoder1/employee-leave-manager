@@ -107,7 +107,7 @@ For demonstration and portal access:
 ## API Endpoints List
 
 ### Authentication
-- `POST /api/auth/register` - Register a new employee (Default leave balance: 15 Annual, 10 Sick, 10 Casual)
+- `POST /api/auth/register` - Register a new employee (Default leave balance: 15 Annual, 10 Sick, 10 Maternity)
 - `POST /api/auth/login` - Login to receive a JWT access token
 
 ### Employee Portal (Requires Employee JWT)

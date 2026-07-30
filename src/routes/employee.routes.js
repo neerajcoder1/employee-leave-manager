@@ -21,7 +21,7 @@ router.use(authenticate, authorize(['employee']));
  * /api/employee/profile:
  *   get:
  *     summary: Fetch employee profile and leave balances
- *     description: Returns the profile details and current leave balances (Annual, Sick, Casual) for the logged-in employee.
+ *     description: Returns the profile details and current leave balances (Annual, Sick, Maternity) for the logged-in employee.
  *     tags: [Employee Portal]
  *     security:
  *       - BearerAuth: []
@@ -56,7 +56,7 @@ router.use(authenticate, authorize(['employee']));
  *                           type: integer
  *                         sick:
  *                           type: integer
- *                         casual:
+ *                         maternity:
  *                           type: integer
  *       401:
  *         description: Unauthorized
@@ -88,7 +88,7 @@ router.get('/profile', employeeController.getProfile);
  *             properties:
  *               leaveType:
  *                 type: string
- *                 enum: [Annual, Sick, Casual]
+ *                 enum: [Annual, Sick, Maternity]
  *                 description: Type of leave being requested
  *               startDate:
  *                 type: string

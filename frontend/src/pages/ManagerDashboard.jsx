@@ -608,7 +608,7 @@ const ManagerDashboard = () => {
                       <th>Department</th>
                       <th>Annual Leave</th>
                       <th>Sick Leave</th>
-                      <th>Casual Leave</th>
+                      <th>Maternity Leave</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -634,7 +634,7 @@ const ManagerDashboard = () => {
                         </td>
                         <td style={{ fontWeight: '600', color: 'var(--accent-hover)' }}>{emp.annual_leave} days</td>
                         <td style={{ fontWeight: '600', color: 'var(--success-color)' }}>{emp.sick_leave} days</td>
-                        <td style={{ fontWeight: '600', color: 'var(--warning-color)' }}>{emp.casual_leave} days</td>
+                        <td style={{ fontWeight: '600', color: 'var(--warning-color)' }}>{emp.maternity_leave} days</td>
                         <td>
                           <button
                             type="button"
