@@ -126,12 +126,79 @@ const TetrisBackground = () => {
   );
 };
 
+const WelcomeScreen = ({ user, onComplete }) => {
+  const [greeting, setGreeting] = useState('');
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting('Good Morning');
+    else if (hour < 17) setGreeting('Good Afternoon');
+    else setGreeting('Good Evening');
+  }, []);
+
+  const messages = [
+    "Authenticating credentials...",
+    "Securing connection...",
+    "Loading your dashboard...",
+    "Fetching your records...",
+    "final_greeting"
+  ];
+
+  useEffect(() => {
+    if (messageIndex < messages.length - 1) {
+      // Switch to the next loading message every 700ms
+      const timer = setTimeout(() => setMessageIndex(i => i + 1), 700);
+      return () => clearTimeout(timer);
+    } else {
+      // Hold the final greeting for 1.5 seconds, then load the dashboard
+      const timer = setTimeout(() => onComplete(), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [messageIndex, messages.length, onComplete]);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100vw' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
+        <h1 
+          key={messageIndex} // Key forces the fade-in animation to run every time the text changes
+          className="blur-reveal" 
+          style={{ 
+            fontSize: messageIndex === messages.length - 1 ? '2.5rem' : '1.75rem', 
+            fontWeight: '700', 
+            color: messageIndex === messages.length - 1 ? 'var(--text-primary)' : 'var(--text-secondary)', 
+            letterSpacing: '-0.02em', 
+            textAlign: 'center', 
+            animationDuration: '0.4s' 
+          }}
+        >
+          {messageIndex === messages.length - 1 ? (
+            <>{greeting}, <span style={{ color: 'var(--accent-color)' }}>{user.username}</span></>
+          ) : (
+            messages[messageIndex]
+          )}
+        </h1>
+        <div className="spinner" style={{ width: '40px', height: '40px', borderWidth: '3px' }}></div>
+      </div>
+    </div>
+  );
+};
+
 /**
  * Main Layout Routing Manager
  */
 const NavigationGateway = () => {
   const { user, loading } = useAuth();
   const [currentView, setCurrentView] = useState('login'); // 'login' or 'register'
+  const [showWelcome, setShowWelcome] = useState(true);
+
+  // Reset the welcome screen state when a user logs out
+  // This ensures the animation plays every time someone logs in
+  useEffect(() => {
+    if (!user) {
+      setShowWelcome(true);
+    }
+  }, [user]);
 
   if (loading) {
     return (
@@ -145,6 +212,10 @@ const NavigationGateway = () => {
 
   // Gateway logic: check auth states and roles
   if (user) {
+    if (showWelcome) {
+      return <WelcomeScreen user={user} onComplete={() => setShowWelcome(false)} />;
+    }
+
     if (user.role === 'manager') {
       return <ManagerDashboard />;
     }

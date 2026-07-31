@@ -543,44 +543,9 @@ const EmployeeDashboard = () => {
           borderRadius: "12px",
         }}
       >
-        <span
-          style={{
-            fontSize: "0.8rem",
-            fontWeight: "600",
-            color: "var(--text-muted)",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-          }}
-        >
-          Employee Dashboard
-        </span>
-        <div style={{ maxWidth: "440px", margin: "0.5rem auto 1rem auto" }}>
-          <TextHoverEffect text="WELCOME" strokeWidth={0.5} opacity={0.75} />
+        <div style={{ maxWidth: "440px", margin: "1rem auto" }}>
+          <TextHoverEffect text={(profile?.username || "EMPLOYEE").toUpperCase()} strokeWidth={0.5} opacity={0.75} />
         </div>
-        <h1
-          style={{
-            fontSize: "2.2rem",
-            fontWeight: "800",
-            marginBottom: "0.5rem",
-            color: "var(--text-primary)",
-            letterSpacing: "-0.025em",
-            marginTop: 0,
-          }}
-        >
-          {profile?.username || "Employee"}! 👋
-        </h1>
-        <p
-          style={{
-            fontSize: "0.95rem",
-            color: "var(--text-secondary)",
-            marginBottom: "1.75rem",
-            maxWidth: "600px",
-            margin: "0.5rem auto 1.75rem auto",
-            lineHeight: 1.5,
-          }}
-        >
-          Manage your leave requests and view your history.
-        </p>
         <div
           style={{
             display: "flex",

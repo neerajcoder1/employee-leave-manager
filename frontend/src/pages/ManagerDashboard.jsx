@@ -111,7 +111,7 @@ const ManagerSkeleton = () => (
 );
 
 const ManagerDashboard = () => {
-  const { token, logout } = useAuth();
+  const { token, logout, user } = useAuth();
   const [activeTab, setActiveTab] = useState("requests"); // 'requests' or 'employees'
   const [leaves, setLeaves] = useState([]);
   const [employees, setEmployees] = useState([]);
@@ -520,45 +520,9 @@ const ManagerDashboard = () => {
           borderRadius: "12px",
         }}
       >
-        <span
-          style={{
-            fontSize: "0.8rem",
-            fontWeight: "600",
-            color: "var(--text-muted)",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-          }}
-        >
-          Hover below to reveal
-        </span>
-        <div style={{ maxWidth: "440px", margin: "0.5rem auto 1rem auto" }}>
+        <div style={{ maxWidth: "440px", margin: "1rem auto" }}>
           <TextHoverEffect text="MANAGER" strokeWidth={0.5} opacity={0.75} />
         </div>
-        <h1
-          style={{
-            fontSize: "2.2rem",
-            fontWeight: "800",
-            marginBottom: "0.5rem",
-            color: "var(--text-primary)",
-            letterSpacing: "-0.025em",
-            marginTop: 0,
-          }}
-        >
-          Welcome back, Admin! 👋
-        </h1>
-        <p
-          style={{
-            fontSize: "0.95rem",
-            color: "var(--text-secondary)",
-            marginBottom: "0.25rem",
-            maxWidth: "600px",
-            margin: "0.5rem auto 0.25rem auto",
-            lineHeight: 1.5,
-          }}
-        >
-          Security Hardened HR Control Portal. Manage active leave allocations,
-          review pending requests, and track audit logs.
-        </p>
       </section>
 
       {/* Summary metric cards (SaaS Dashboard layout) */}
