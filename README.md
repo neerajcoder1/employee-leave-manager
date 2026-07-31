@@ -50,18 +50,18 @@
 ## 🏗 System Architecture
 
 Frontend (Vercel)
-<img width="751" height="352" alt="image" src="https://github.com/user-attachments/assets/5c6fe647-b26f-48b3-a2fe-4a7cf7dec960" />
+
 
         │
         ▼
 Backend (Render)
-<img width="722" height="429" alt="image" src="https://github.com/user-attachments/assets/7392cdf0-5f7a-4685-8b7e-079477cb54fa" />
+
 
 
         │
         ▼
 Supabase PostgreSQL 
-<img width="901" height="380" alt="image" src="https://github.com/user-attachments/assets/cf8c8732-172c-4549-9e19-3f79045dfa5f" />
+
 
 
 ---
