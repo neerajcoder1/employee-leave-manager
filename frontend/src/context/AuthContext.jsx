@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
   // Initialize authentication state from localStorage on load
   useEffect(() => {
     const bootstrapAuth = () => {
-      const storedToken = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
+      const storedToken = sessionStorage.getItem("token");
+      const storedUser = sessionStorage.getItem("user");
 
       if (storedToken && storedUser) {
         try {
@@ -19,8 +19,8 @@ export const AuthProvider = ({ children }) => {
           setUser(JSON.parse(storedUser));
         } catch (err) {
           console.error("Error parsing stored user details:", err);
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user");
         }
       }
       setLoading(false);
@@ -58,8 +58,8 @@ export const AuthProvider = ({ children }) => {
 
       const { token: jwtToken, user: userData } = result.data;
 
-      localStorage.setItem("token", jwtToken);
-      localStorage.setItem("user", JSON.stringify(userData));
+      sessionStorage.setItem("token", jwtToken);
+      sessionStorage.setItem("user", JSON.stringify(userData));
 
       setToken(jwtToken);
       setUser(userData);
@@ -80,8 +80,8 @@ export const AuthProvider = ({ children }) => {
    * Handle user logout
    */
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
     setToken(null);
     setUser(null);
   };

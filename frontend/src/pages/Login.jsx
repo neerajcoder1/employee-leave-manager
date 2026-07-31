@@ -128,23 +128,7 @@ const Login = ({ onNavigate }) => {
               </div>
             </div>
 
-            <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
-              <input
-                type="checkbox"
-                id="rememberMe"
-                style={{
-                  accentColor: 'var(--accent-color)',
-                  width: '15px',
-                  height: '15px',
-                  cursor: 'pointer'
-                }}
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label htmlFor="rememberMe" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', cursor: 'pointer', userSelect: 'none' }}>
-                Remember me on this device
-              </label>
-            </div>
+            {/* Remember Me removed for strict tab-isolation security */}
 
             <button 
               type="submit" 
