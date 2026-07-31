@@ -49,7 +49,10 @@ const employeeController = {
     try {
       const { leaveType, startDate, endDate, reason } = req.body;
       const employeeId = req.user.id;
-      
+      if (!req.file) {
+        return res.status(400).json({ success: false, message: 'Supporting document is strictly required.' });
+      }
+
       // Determine file path if upload exists
       const documentPath = req.file ? `uploads/${req.file.filename}` : null;
 

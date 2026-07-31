@@ -197,8 +197,8 @@ const EmployeeDashboard = () => {
     e.preventDefault();
     setFormError("");
 
-    if (!startDate || !endDate || !reason.trim()) {
-      setFormError("Please fill in all required fields.");
+    if (!startDate || !endDate || !reason.trim() || !file) {
+      setFormError("Please fill in all required fields and upload a supporting document.");
       return;
     }
 
@@ -958,8 +958,8 @@ const EmployeeDashboard = () => {
               </div>
 
               <div className="form-group" style={{ marginBottom: "1.75rem" }}>
-                <label className="form-label">
-                  Supporting Document (Optional)
+                <label className="form-label" style={{ display: "block" }}>
+                  Supporting Document <span style={{ color: "var(--danger-color)" }}>*</span>
                 </label>
                 <div
                   className={`file-upload-zone ${isDragOver ? "dragover" : ""}`}
