@@ -26,13 +26,15 @@ app.set("trust proxy", 1);
 app.use(helmet());
 
 // CORS Whitelist Configuration (anti-Security Misconfiguration)
-const whitelist = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
-  : [
-      "http://localhost:5000",
-      "http://localhost:5173",
-      "https://employee-leave-manager-one.vercel.app",
-    ];
+const coreOrigins = [
+  "http://localhost:5000",
+  "http://localhost:5173",
+  "https://employee-leave-manager-one.vercel.app",
+];
+const extraOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
+  : [];
+const whitelist = [...new Set([...coreOrigins, ...extraOrigins])];
 
 app.use(
   cors({
