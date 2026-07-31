@@ -72,13 +72,13 @@ const TextHoverEffect = ({ text = "WELCOME", strokeWidth = 0.5, opacity = 0.75 }
         </mask>
       </defs>
 
-      {/* Dark theme styled background strokes */}
+      {/* Dark/Light theme styled background strokes */}
       <text
         x="50%"
         y="50%"
         textAnchor="middle"
         dominantBaseline="central"
-        stroke="var(--border-color)"
+        stroke="var(--text-muted)"
         strokeWidth={strokeWidth}
         fill="transparent"
         style={{
@@ -87,7 +87,8 @@ const TextHoverEffect = ({ text = "WELCOME", strokeWidth = 0.5, opacity = 0.75 }
           fontSize: '11px',
           textTransform: 'uppercase',
           letterSpacing: '0.08em',
-          transition: 'stroke 0.3s ease'
+          transition: 'stroke 0.3s ease',
+          opacity: 0.5
         }}
       >
         {text}
@@ -99,7 +100,7 @@ const TextHoverEffect = ({ text = "WELCOME", strokeWidth = 0.5, opacity = 0.75 }
         y="50%"
         textAnchor="middle"
         dominantBaseline="central"
-        fill="url(#textGradient)"
+        fill="var(--text-primary)"
         mask="url(#textMask)"
         style={{
           fontFamily: '"Outfit", "Inter", sans-serif',
