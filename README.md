@@ -60,11 +60,13 @@ Backend (Render)
 
         │
         ▼
+        
 Supabase PostgreSQL 
 
 
+        │
+        ▼
 
----
 
 ## 🛠 Tech Stack
 
