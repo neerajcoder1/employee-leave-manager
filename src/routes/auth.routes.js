@@ -16,7 +16,7 @@ const validateInput = require('../middleware/validation.middleware');
  * /api/auth/register:
  *   post:
  *     summary: Register a new employee
- *     description: Registers a new user with the 'employee' role and initializes their default leave balances (Annual: 15, Sick: 10, Maternity: 10).
+ *     description: "Registers a new user with the employee role and initializes their default leave balances (Annual - 15, Sick - 10, Maternity - 10)."
  *     tags: [Authentication]
  *     requestBody:
  *       required: true
