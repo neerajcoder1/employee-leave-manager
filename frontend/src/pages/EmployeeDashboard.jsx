@@ -278,10 +278,17 @@ const EmployeeDashboard = () => {
     return name.slice(0, 2).toUpperCase();
   };
 
+  const getDocumentUrl = (path) => {
+    if (!path) return "";
+    const baseUrl = import.meta.env.VITE_API_URL.replace(/\/api$/, "");
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    return `${baseUrl}${normalizedPath}?token=${token}`;
+  };
+
   // Render Document Preview Modal Content
   const renderPreviewContent = (docPath) => {
     const ext = docPath.substring(docPath.lastIndexOf(".")).toLowerCase();
-    const fullPath = `/${docPath}?token=${token}`;
+    const fullPath = getDocumentUrl(docPath);
 
     if (ext === ".pdf") {
       return (
@@ -1136,7 +1143,7 @@ const EmployeeDashboard = () => {
               }}
             >
               <a
-                href={`/${previewDocument}?token=${token}`}
+                href={getDocumentUrl(previewDocument)}
                 download
                 className="btn btn-primary btn-sm"
                 style={{ textDecoration: "none", color: "var(--bg-app)" }}
