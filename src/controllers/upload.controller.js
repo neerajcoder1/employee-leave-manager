@@ -40,7 +40,7 @@ const serveFile = async (req, res, next) => {
     }
 
     // 2. Fetch the document from the database
-    const docQuery = `SELECT file_name, mime_type, file_data FROM documents WHERE id = $1`;
+    const docQuery = `SELECT filename, mime_type, file_data FROM documents WHERE id = $1`;
     const docRes = await db.query(docQuery, [documentId]);
 
     if (docRes.rows.length === 0) {
@@ -51,7 +51,7 @@ const serveFile = async (req, res, next) => {
 
     // 3. Send the document with correct headers
     res.setHeader('Content-Type', document.mime_type);
-    res.setHeader('Content-Disposition', `inline; filename="${document.file_name}"`);
+    res.setHeader('Content-Disposition', `inline; filename="${document.filename}"`);
     return res.send(document.file_data);
 
   } catch (error) {
