@@ -7,7 +7,7 @@ const FAQ_ITEMS = [
   },
   {
     title: 'How many leaves am I allocated?',
-    content: 'Each employee starts with 15 days of Annual Leave, 10 days of Sick Leave, and 10 days of Maternity Leave. Balances are deducted automatically upon approval.'
+    content: 'Each employee starts with 15 days of Annual Leave and 10 days of Sick Leave. Balances are deducted automatically upon approval.'
   },
   {
     title: 'Can I upload supporting documents?',

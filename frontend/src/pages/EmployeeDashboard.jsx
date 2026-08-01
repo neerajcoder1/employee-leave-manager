@@ -393,8 +393,7 @@ const EmployeeDashboard = () => {
   const sickAvailable = profile?.balances?.sick ?? 0;
   const sickUsed = Math.max(10 - sickAvailable, 0);
 
-  const maternityAvailable = profile?.balances?.maternity ?? 0;
-  const maternityUsed = Math.max(90 - maternityAvailable, 0);
+
 
   return (
     <div className="dashboard-container">
@@ -583,12 +582,6 @@ const EmployeeDashboard = () => {
           availableDays={sickAvailable}
           totalDays={10}
           usedDays={sickUsed}
-        />
-        <LeaveBalanceCard
-          type="Maternity"
-          availableDays={maternityAvailable}
-          totalDays={10}
-          usedDays={maternityUsed}
         />
       </section>
       {showHistory && (
@@ -911,7 +904,7 @@ const EmployeeDashboard = () => {
                 >
                   <option value="Annual">Annual Leave (15 days)</option>
                   <option value="Sick">Sick Leave (10 days)</option>
-                  <option value="Maternity">Maternity Leave (10 days)</option>
+
                 </select>
               </div>
 
@@ -1322,30 +1315,6 @@ const EmployeeDashboard = () => {
                       }}
                     >
                       {sickAvailable} / 10 days
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "0.5rem 0.75rem",
-                      background: "var(--bg-app)",
-                      border: "1px solid var(--border-color)",
-                      borderRadius: "6px",
-                    }}
-                  >
-                    <span style={{ fontSize: "0.825rem", fontWeight: "500" }}>
-                      Maternity Leave
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "0.825rem",
-                        fontWeight: "700",
-                        color: "var(--text-primary)",
-                      }}
-                    >
-                      {maternityAvailable} / 10 days
                     </span>
                   </div>
                 </div>
