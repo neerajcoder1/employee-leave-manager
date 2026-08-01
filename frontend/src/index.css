@@ -633,20 +633,16 @@ body {
   margin: 0;
 }
 
-/* Leave balance cards row — 3 columns on desktop */
+/* Leave balance cards row — Centered 2 columns */
 .grid-balances {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-@media (max-width: 900px) {
-  .grid-balances {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 560px) {
+@media (max-width: 600px) {
   .grid-balances {
     grid-template-columns: 1fr;
   }
