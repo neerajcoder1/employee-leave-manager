@@ -116,7 +116,9 @@ const EmployeeDashboard = () => {
       if (result.success && result.data.length > 0) {
         let hasNewNotifications = false;
         result.data.forEach((notification) => {
-          addToast("info", "Status Update", notification.message);
+          const type = notification.message.toLowerCase().includes('approved') ? 'success' : 
+                       notification.message.toLowerCase().includes('rejected') ? 'error' : 'info';
+          addToast(type, "Leave Status Updated", notification.message);
           hasNewNotifications = true;
 
           fetch(
