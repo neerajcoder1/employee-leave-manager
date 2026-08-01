@@ -137,6 +137,8 @@ const ManagerDashboard = () => {
   // Document Viewer Modal State
   const [previewDocument, setPreviewDocument] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [downloadState, setDownloadState] = useState('idle'); // 'idle', 'downloading', 'success', 'error'
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   const addToast = (type, title, message) => {
     const id = Date.now() + Math.random();
@@ -244,6 +246,66 @@ const ManagerDashboard = () => {
       setModalError(err.message);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  // Custom Download Handler with 3D Animation & Blob fetching
+  const handleDownloadDocument = async (docPath) => {
+    setDownloadState('downloading');
+    setDownloadProgress(0);
+
+    // Simulate progress for the "3D animation" effect
+    const progressInterval = setInterval(() => {
+      setDownloadProgress((prev) => {
+        if (prev >= 90) return 90;
+        return prev + 10;
+      });
+    }, 150);
+
+    try {
+      const response = await fetch(getDocumentUrl(docPath, true), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const blob = await response.blob();
+
+      clearInterval(progressInterval);
+      setDownloadProgress(100);
+      setDownloadState('success');
+
+      // Trigger actual download
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+
+      let filename = "document";
+      const disposition = response.headers.get('content-disposition');
+      if (disposition && disposition.indexOf('filename=') !== -1) {
+        const matches = /filename="([^"]+)"/.exec(disposition);
+        if (matches != null && matches[1]) filename = matches[1];
+      } else {
+        const pathParts = docPath.split('/');
+        filename = pathParts[pathParts.length - 1];
+      }
+
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+
+      // Show success toast
+      addToast("success", "Download Complete", "The document has been successfully downloaded.");
+
+      // Close modal after a short delay (Redirects to dashboard view)
+      setTimeout(() => {
+        setDownloadState('idle');
+        setPreviewDocument(null);
+      }, 1500);
+    } catch (error) {
+      clearInterval(progressInterval);
+      setDownloadState('error');
+      addToast("error", "Download Failed", "Failed to download the document.");
+      setTimeout(() => setDownloadState('idle'), 2000);
     }
   };
 
@@ -1248,32 +1310,74 @@ const ManagerDashboard = () => {
               </button>
             </div>
 
-            <div className="doc-preview-body">
+            <div className="modal-body" style={{ height: "60vh", padding: 0, position: "relative" }}>
               {renderPreviewContent(previewDocument)}
+              
+              {/* 3D Download Overlay */}
+              {downloadState !== 'idle' && (
+                <div style={{
+                  position: 'absolute',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  background: 'rgba(15, 23, 42, 0.85)',
+                  backdropFilter: 'blur(8px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  zIndex: 10,
+                  borderRadius: '8px'
+                }}>
+                  {downloadState === 'downloading' && (
+                    <div style={{ width: '80%', maxWidth: '400px', textAlign: 'center' }}>
+                      <h3 style={{ marginBottom: '1rem', color: '#fff', fontSize: '1.2rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Downloading Document...</h3>
+                      <div className="progress-3d-container">
+                        <div className="progress-3d-bar" style={{ width: `${downloadProgress}%` }}></div>
+                      </div>
+                      <p style={{ marginTop: '0.75rem', color: 'var(--text-secondary)', fontWeight: '600' }}>{downloadProgress}%</p>
+                    </div>
+                  )}
+                  
+                  {downloadState === 'success' && (
+                    <div className="card-panel success-pop-in" style={{ padding: '2rem', textAlign: 'center', background: 'var(--bg-card)', border: '1px solid var(--success-color)' }}>
+                      <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto' }}>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </div>
+                      <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Successfully Downloaded!</h3>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Returning to dashboard...</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                gap: "0.75rem",
-              }}
+              className="modal-footer"
+              style={{ padding: "1rem 1.5rem", background: "var(--bg-card)" }}
             >
-              <a
-                href={getDocumentUrl(previewDocument)}
-                download
-                className="btn btn-primary btn-sm"
-                style={{ textDecoration: "none", color: "var(--bg-app)" }}
-              >
-                📥 Download Document
-              </a>
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={() => setPreviewDocument(null)}
-              >
-                Close
-              </button>
+              <div style={{ display: "flex", gap: "1rem", width: "100%", justifyContent: "flex-end" }}>
+                <button
+                  type="button"
+                  onClick={() => handleDownloadDocument(previewDocument)}
+                  disabled={downloadState !== 'idle'}
+                  className="btn btn-secondary"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                  }}
+                >
+                  <span style={{ fontSize: "1.1rem" }}>🖨️</span> Download Document
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setPreviewDocument(null)}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
