@@ -1502,10 +1502,10 @@ const ManagerDashboard = () => {
             <div className="modal-header">
               <h2>Employee Profile</h2>
               <button
-                className="close-btn"
+                className="modal-close"
                 onClick={() => setViewEmployeeProfile(null)}
               >
-                ×
+                &times;
               </button>
             </div>
             <div className="modal-body" style={{ display: "flex", flexDirection: "column", gap: "1rem", textAlign: "center", padding: "1rem" }}>
