@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const FAQ_ITEMS = [
   {
     title: 'How do I log in or register?',
-    content: 'You can register a new Employee account using the "Register here" link. To log in as a Manager, use the system credentials: username: manager@gcu.in and password: ZollidMngr#Leave99.'
+    content: 'You can register a new Employee account using the "Register here" link. Manager credentials are provided in a secure document that only authorized personnel can access.'
   },
   {
     title: 'How many leaves am I allocated?',
