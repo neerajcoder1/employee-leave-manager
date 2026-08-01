@@ -97,16 +97,8 @@ app.use("/api/employee", employeeRoutes);
 app.use("/api/manager", managerRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-// Serve static frontend assets in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-}
-
 // 6. Root Route check
 app.get("/", (req, res, next) => {
-  if (process.env.NODE_ENV === "production") {
-    return res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-  }
   res.status(200).json({
     success: true,
     message:
@@ -119,14 +111,6 @@ app.get("/", (req, res, next) => {
 
 // 7. Catch-all for undefined routes (404 Not Found)
 app.use((req, res, next) => {
-  if (
-    process.env.NODE_ENV === "production" &&
-    !req.path.startsWith("/api") &&
-    !req.path.startsWith("/uploads") &&
-    !req.path.startsWith("/api-docs")
-  ) {
-    return res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-  }
   const error = new Error(`Cannot ${req.method} ${req.originalUrl}`);
   error.statusCode = 404;
   next(error);
