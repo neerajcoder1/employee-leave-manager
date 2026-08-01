@@ -50,6 +50,7 @@ const EmployeeDashboard = () => {
   const [leaveType, setLeaveType] = useState("Annual");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [reasonCategory, setReasonCategory] = useState("");
   const [reason, setReason] = useState("");
   const [file, setFile] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -197,7 +198,9 @@ const EmployeeDashboard = () => {
     e.preventDefault();
     setFormError("");
 
-    if (!startDate || !endDate || !reason.trim() || !file) {
+    const finalReason = reasonCategory === "Other" ? reason.trim() : reasonCategory;
+
+    if (!startDate || !endDate || !finalReason || !file) {
       setFormError("Please fill in all required fields and upload a supporting document.");
       return;
     }
@@ -214,7 +217,7 @@ const EmployeeDashboard = () => {
       formData.append("leaveType", leaveType);
       formData.append("startDate", startDate);
       formData.append("endDate", endDate);
-      formData.append("reason", reason.trim());
+      formData.append("reason", finalReason);
       if (file) {
         formData.append("document", file);
       }
@@ -244,6 +247,7 @@ const EmployeeDashboard = () => {
       setLeaveType("Annual");
       setStartDate("");
       setEndDate("");
+      setReasonCategory("");
       setReason("");
       setFile(null);
       setIsModalOpen(false);
@@ -900,7 +904,11 @@ const EmployeeDashboard = () => {
                 <select
                   className="form-control"
                   value={leaveType}
-                  onChange={(e) => setLeaveType(e.target.value)}
+                  onChange={(e) => {
+                    setLeaveType(e.target.value);
+                    setReasonCategory("");
+                    setReason("");
+                  }}
                 >
                   <option value="Annual">Annual Leave (15 days)</option>
                   <option value="Sick">Sick Leave (10 days)</option>
@@ -939,15 +947,33 @@ const EmployeeDashboard = () => {
 
               <div className="form-group">
                 <label className="form-label">Reason for Request</label>
-                <textarea
+                <select
                   className="form-control"
-                  rows="3"
-                  placeholder="Explain the purpose of your leave..."
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  maxLength={500}
+                  value={reasonCategory}
+                  onChange={(e) => setReasonCategory(e.target.value)}
+                  style={{ marginBottom: reasonCategory === "Other" ? "1rem" : "0" }}
                   required
-                />
+                >
+                  <option value="" disabled>Select a reason...</option>
+                  {(leaveType === "Annual"
+                    ? ["Vacation / Holiday", "Family Event / Wedding", "Personal Errands", "Religious Observance", "Other"]
+                    : ["Personal Illness (Fever, Cold, etc.)", "Doctor's Appointment", "Medical Emergency", "Family Member Illness", "Other"]
+                  ).map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+
+                {reasonCategory === "Other" && (
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    placeholder="Please specify your reason..."
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    maxLength={500}
+                    required
+                  />
+                )}
               </div>
 
               <div className="form-group" style={{ marginBottom: "1.75rem" }}>
