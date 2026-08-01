@@ -278,11 +278,11 @@ const EmployeeDashboard = () => {
     return name.slice(0, 2).toUpperCase();
   };
 
-  const getDocumentUrl = (path) => {
+  const getDocumentUrl = (path, download = false) => {
     if (!path) return "";
     const baseUrl = import.meta.env.VITE_API_URL.replace(/\/api$/, "");
     const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-    return `${baseUrl}${normalizedPath}?token=${token}`;
+    return `${baseUrl}${normalizedPath}?token=${token}${download ? '&download=1' : ''}`;
   };
 
   // Render Document Preview Modal Content
@@ -304,6 +304,8 @@ const EmployeeDashboard = () => {
           src={fullPath}
           className="doc-preview-img"
           alt="Document Preview"
+          referrerPolicy="no-referrer"
+          crossOrigin="anonymous"
         />
       );
     } else {
@@ -859,6 +861,7 @@ const EmployeeDashboard = () => {
                   >
                     Previous
                   </button>
+
                   <button
                     className="btn btn-secondary btn-sm"
                     onClick={() =>
@@ -1143,7 +1146,7 @@ const EmployeeDashboard = () => {
               }}
             >
               <a
-                href={getDocumentUrl(previewDocument)}
+                href={getDocumentUrl(previewDocument, true)}
                 download
                 className="btn btn-primary btn-sm"
                 style={{ textDecoration: "none", color: "var(--bg-app)" }}

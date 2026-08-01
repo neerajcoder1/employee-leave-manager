@@ -278,11 +278,11 @@ const ManagerDashboard = () => {
     return name.slice(0, 2).toUpperCase();
   };
 
-  const getDocumentUrl = (path) => {
+  const getDocumentUrl = (path, download = false) => {
     if (!path) return "";
     const baseUrl = import.meta.env.VITE_API_URL.replace(/\/api$/, "");
     const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-    return `${baseUrl}${normalizedPath}?token=${token}`;
+    return `${baseUrl}${normalizedPath}?token=${token}${download ? '&download=1' : ''}`;
   };
 
   // Render Document Preview Modal Content
@@ -304,6 +304,8 @@ const ManagerDashboard = () => {
           src={fullPath}
           className="doc-preview-img"
           alt="Document Preview"
+          referrerPolicy="no-referrer"
+          crossOrigin="anonymous"
         />
       );
     } else {

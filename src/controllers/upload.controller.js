@@ -52,7 +52,12 @@ const serveFile = async (req, res, next) => {
 
     // 3. Send the document with correct headers
     res.setHeader('Content-Type', document.mime_type);
-    res.setHeader('Content-Disposition', `inline; filename="${document.filename}"`);
+    
+    if (req.query.download === '1') {
+      res.setHeader('Content-Disposition', `attachment; filename="${document.filename}"`);
+    } else {
+      res.setHeader('Content-Disposition', `inline; filename="${document.filename}"`);
+    }
     return res.send(document.file_data);
 
   } catch (error) {
