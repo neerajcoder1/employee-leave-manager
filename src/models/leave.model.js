@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const path = require('path');
 
 /**
  * Leave Request Model
@@ -55,7 +56,8 @@ const Leave = {
           file.buffer
         ]);
         const documentId = docRes.rows[0].id;
-        documentPath = `uploads/${documentId}`;
+        const ext = path.extname(file.originalname).toLowerCase();
+        documentPath = `uploads/${documentId}${ext}`;
       }
 
       // 4. Insert leave request

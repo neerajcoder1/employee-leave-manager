@@ -8,9 +8,10 @@ const db = require('../config/db');
 const serveFile = async (req, res, next) => {
   try {
     const { filename } = req.params;
-    // filename is actually the UUID in this new setup, but it might be 'uploads/UUID' or just 'UUID'
-    const documentId = filename;
-    const documentPath = `uploads/${documentId}`;
+    // Strip the extension to get the UUID for the database query
+    const documentId = filename.includes('.') ? filename.substring(0, filename.lastIndexOf('.')) : filename;
+    // The path in the database matches exactly what was requested
+    const documentPath = `uploads/${filename}`;
 
     // 1. Authorization Check
     let isAuthorized = false;
