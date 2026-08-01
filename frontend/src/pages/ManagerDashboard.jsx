@@ -121,6 +121,7 @@ const ManagerDashboard = () => {
   // Filters, Searches & Sorts States
   const [searchQuery, setSearchQuery] = useState("");
   const [employeeSearchQuery, setEmployeeSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
   const [employeeSortBy, setEmployeeSortBy] = useState("username"); // 'username', 'newest', 'annual'
   const [viewEmployeeProfile, setViewEmployeeProfile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
