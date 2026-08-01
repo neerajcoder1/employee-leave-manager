@@ -121,8 +121,8 @@ const ManagerDashboard = () => {
   // Filters, Searches & Sorts States
   const [searchQuery, setSearchQuery] = useState("");
   const [employeeSearchQuery, setEmployeeSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
   const [employeeSortBy, setEmployeeSortBy] = useState("username"); // 'username', 'newest', 'annual'
+  const [viewEmployeeProfile, setViewEmployeeProfile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 6;
 
@@ -1059,13 +1059,10 @@ const ManagerDashboard = () => {
                           <button
                             type="button"
                             className="btn btn-secondary btn-sm"
-                            onClick={() =>
-                              addToast(
-                                "info",
-                                "Employee Detail",
-                                `Contact info: ${emp.username.toLowerCase()}@gcu.in | Job: ${getMockTitle(emp.username, index)}`,
-                              )
-                            }
+                            onClick={() => {
+                              // We also attach the index to emp so we can use getMockTitle consistently
+                              setViewEmployeeProfile({ ...emp, _index: index });
+                            }}
                           >
                             View Profile
                           </button>
@@ -1484,6 +1481,73 @@ const ManagerDashboard = () => {
               >
                 Dismiss
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Employee Profile Modal */}
+      {viewEmployeeProfile && (
+        <div className="modal-overlay" onClick={() => setViewEmployeeProfile(null)}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: "400px",
+              border: "1px solid var(--success-color)",
+              boxShadow: "0 0 30px hsla(142.1, 70.6%, 45.3%, 0.2)",
+            }}
+          >
+            <div className="modal-header">
+              <h2>Employee Profile</h2>
+              <button
+                className="close-btn"
+                onClick={() => setViewEmployeeProfile(null)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body" style={{ display: "flex", flexDirection: "column", gap: "1rem", textAlign: "center", padding: "1rem" }}>
+              <div style={{
+                width: "80px", height: "80px", borderRadius: "50%",
+                background: "hsla(142.1, 70.6%, 45.3%, 0.15)",
+                color: "var(--success-color)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "2rem", fontWeight: "700", margin: "0 auto",
+                border: "2px solid var(--success-color)"
+              }}>
+                {getInitials(viewEmployeeProfile.username)}
+              </div>
+              
+              <h3 style={{ fontSize: "1.5rem", margin: "0", color: "var(--text-primary)" }}>
+                {viewEmployeeProfile.username}
+              </h3>
+              
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", background: "var(--bg-app)", padding: "1rem", borderRadius: "8px", textAlign: "left", border: "1px solid var(--border-color)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Email</span>
+                  <span style={{ fontWeight: "500", fontSize: "0.85rem" }}>{viewEmployeeProfile.username.toLowerCase()}@gcu.in</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Job Title</span>
+                  <span style={{ fontWeight: "500", fontSize: "0.85rem" }}>{getMockTitle(viewEmployeeProfile.username, viewEmployeeProfile._index)}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Department</span>
+                  <span style={{ fontWeight: "500", fontSize: "0.85rem" }}>{getMockDepartment(viewEmployeeProfile.username, viewEmployeeProfile._index)}</span>
+                </div>
+              </div>
+              
+              <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
+                <div style={{ flex: 1, background: "hsla(263.4, 70%, 60%, 0.1)", border: "1px solid hsla(263.4, 70%, 60%, 0.3)", padding: "1rem", borderRadius: "8px" }}>
+                  <div style={{ fontSize: "1.5rem", fontWeight: "700", color: "hsl(263.4, 70%, 60%)" }}>{viewEmployeeProfile.annual_leave}</div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Annual Days</div>
+                </div>
+                <div style={{ flex: 1, background: "hsla(142.1, 70.6%, 48%, 0.1)", border: "1px solid hsla(142.1, 70.6%, 48%, 0.3)", padding: "1rem", borderRadius: "8px" }}>
+                  <div style={{ fontSize: "1.5rem", fontWeight: "700", color: "var(--success-color)" }}>{viewEmployeeProfile.sick_leave}</div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Sick Days</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
