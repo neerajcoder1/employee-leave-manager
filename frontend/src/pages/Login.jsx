@@ -133,12 +133,20 @@ const Login = ({ onNavigate }) => {
             <button 
               type="submit" 
               className="btn btn-primary" 
-              style={{ width: '100%', padding: '0.75rem', gap: '0.6rem' }}
+              style={{ width: '100%', marginBottom: loading ? '1rem' : '0' }}
               disabled={loading}
             >
               {loading && <span className="spinner"></span>}
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Connecting to Server...' : 'Sign In'}
             </button>
+
+            {loading && (
+              <div className="marquee-container blur-reveal" style={{ animationDelay: '100ms' }}>
+                <div className="marquee-content">
+                  Please wait while we wake up our secure servers. Since we use eco-friendly hosting, initial connection may take up to 60 seconds...
+                </div>
+              </div>
+            )}
           </form>
 
           <div className="auth-footer">
