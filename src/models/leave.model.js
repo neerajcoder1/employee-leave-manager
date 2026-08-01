@@ -7,7 +7,7 @@ const Leave = {
   /**
    * Submit a new leave request (after checking balance, but does not deduct balance yet)
    */
-  async createLeaveRequest({ employeeId, leaveType, startDate, endDate, reason, documentPath }) {
+  async createLeaveRequest({ employeeId, leaveType, startDate, endDate, reason, file }) {
     const client = await db.pool.connect();
     try {
       await client.query('BEGIN');
@@ -41,7 +41,24 @@ const Leave = {
         throw new Error(`Insufficient leave balance. Requested: ${duration} days, Available: ${currentBalance} days`);
       }
 
-      // 3. Insert leave request
+      // 3. Save document to DB if provided
+      let documentPath = null;
+      if (file) {
+        const docInsertQuery = `
+          INSERT INTO documents (filename, mime_type, file_data)
+          VALUES ($1, $2, $3)
+          RETURNING id
+        `;
+        const docRes = await client.query(docInsertQuery, [
+          file.originalname,
+          file.mimetype,
+          file.buffer
+        ]);
+        const documentId = docRes.rows[0].id;
+        documentPath = `uploads/${documentId}`;
+      }
+
+      // 4. Insert leave request
       const insertQuery = `
         INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason, document_path)
         VALUES ($1, $2, $3, $4, $5, $6)

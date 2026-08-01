@@ -53,9 +53,7 @@ const employeeController = {
         return res.status(400).json({ success: false, message: 'Supporting document is strictly required.' });
       }
 
-      // Determine file path if upload exists
-      const documentPath = req.file ? `uploads/${req.file.filename}` : null;
-
+      // Create the leave request, passing the file object to be saved in DB
       try {
         const newLeave = await Leave.createLeaveRequest({
           employeeId,
@@ -63,7 +61,7 @@ const employeeController = {
           startDate,
           endDate,
           reason,
-          documentPath
+          file: req.file
         });
 
         return res.status(201).json({
@@ -71,14 +69,7 @@ const employeeController = {
           message: 'Leave request submitted successfully',
           data: newLeave
         });
-      } catch (dbError) {
-        // If DB insertion fails (e.g. insufficient balance), delete the uploaded file
-        if (req.file) {
-          fs.unlink(req.file.path, (unlinkErr) => {
-            if (unlinkErr) console.error('Error deleting file on DB error:', unlinkErr);
-          });
-        }
-        
+      } catch (dbError) {        
         return res.status(400).json({
           success: false,
           message: dbError.message || 'Failed to submit leave request',
