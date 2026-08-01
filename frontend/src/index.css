@@ -1359,33 +1359,21 @@ body {
 }
 
 /* ==========================================================================
-   MARQUEE ANIMATION FOR COLD STARTS
+   COLD START ALERT
    ========================================================================== */
 
-.marquee-container {
-  overflow: hidden;
-  white-space: nowrap;
+.cold-start-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
   background-color: hsla(263.4, 70%, 60%, 0.1);
   border: 1px solid hsla(263.4, 70%, 60%, 0.3);
   color: var(--accent-color);
-  padding: 0.75rem 0;
+  padding: 1rem;
   border-radius: 8px;
-  position: relative;
   width: 100%;
-}
-
-.marquee-content {
-  display: inline-block;
-  animation: marquee-scroll 15s linear infinite;
-  font-weight: 500;
   font-size: 0.85rem;
-}
-
-@keyframes marquee-scroll {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  line-height: 1.5;
+  font-weight: 500;
+  margin-top: 1rem;
 }
