@@ -1,27 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 const SplashScreen = ({ onComplete }) => {
   const [fadingOut, setFadingOut] = useState(false);
+  const [countdown, setCountdown] = useState(45);
+  const [serverReady, setServerReady] = useState(false);
+  const isMounted = useRef(true);
 
   useEffect(() => {
-    // 🚀 BACKGROUND WAKE UP PING
-    // Fire and forget a ping to the Render backend to wake it up during the splash screen!
-    fetch('https://employee-leave-api-62a7.onrender.com/api/health')
-      .catch(() => {}); // ignore errors, we just want to hit the server
+    isMounted.current = true;
+    
+    // Start reverse number countdown timer
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-    // Show splash for 3.5 seconds, then start fading out
-    const fadeTimer = setTimeout(() => {
-      setFadingOut(true);
-    }, 3500);
+    // Background fetch to wake up the Render server
+    const wakeUpServer = async () => {
+      const startTime = Date.now();
+      try {
+        await fetch('https://employee-leave-api-62a7.onrender.com/api/health');
+      } catch (err) {
+        // ignore errors
+      }
+      
+      // Minimum duration for the splash screen so it's not a glitchy flash if server is already awake
+      const elapsed = Date.now() - startTime;
+      const minWait = 3500;
+      if (elapsed < minWait) {
+        await new Promise(res => setTimeout(res, minWait - elapsed));
+      }
 
-    // Call onComplete after the fade out transition finishes (500ms)
-    const completeTimer = setTimeout(() => {
-      onComplete();
-    }, 4000);
+      if (isMounted.current) {
+        setServerReady(true);
+        setCountdown(0);
+        clearInterval(timer);
+        
+        // Trigger fade out
+        setFadingOut(true);
+        setTimeout(() => {
+          if (isMounted.current) {
+            onComplete();
+          }
+        }, 500); // Wait for CSS transition
+      }
+    };
+
+    wakeUpServer();
 
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(completeTimer);
+      isMounted.current = false;
+      clearInterval(timer);
     };
   }, [onComplete]);
 
@@ -92,6 +126,15 @@ const SplashScreen = ({ onComplete }) => {
         >
           Zollid Leave Portal
         </h1>
+        <div style={{ 
+          marginTop: '1.5rem', 
+          fontSize: '1.5rem', 
+          fontWeight: 600, 
+          letterSpacing: '3px',
+          fontFamily: 'monospace'
+        }}>
+          {serverReady ? 'SERVER CONNECTED' : `WAKING SERVER: ${countdown}s`}
+        </div>
       </div>
     </div>
   );
