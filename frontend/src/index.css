@@ -47,16 +47,16 @@
 }
 
 [data-theme="light"] {
-  /* Light Mode Tones */
-  --bg-app: hsl(0, 0%, 98%);
-  --bg-card: hsl(0, 0%, 100%);
-  --bg-card-hover: hsl(240, 4.8%, 95.9%);
-  --bg-input: hsl(0, 0%, 100%);
-  --text-primary: hsl(240, 10%, 3.9%);
-  --text-secondary: hsl(240, 3.8%, 46.1%);
-  --text-muted: hsl(240, 3.8%, 65%);
-  --border-color: hsl(240, 5.9%, 90%);
-  --border-hover: hsl(240, 5.9%, 80%);
+  /* Light Mode Tones (Soft Gray) */
+  --bg-app: hsl(220, 12%, 92%); /* Soft cool gray background */
+  --bg-card: hsl(220, 12%, 96%); /* Off-white / light gray for cards */
+  --bg-card-hover: hsl(220, 12%, 90%);
+  --bg-input: hsl(220, 12%, 96%);
+  --text-primary: hsl(220, 15%, 15%);
+  --text-secondary: hsl(220, 8%, 40%);
+  --text-muted: hsl(220, 8%, 60%);
+  --border-color: hsl(220, 15%, 85%);
+  --border-hover: hsl(220, 15%, 75%);
 }
 
 /* ==========================================================================
