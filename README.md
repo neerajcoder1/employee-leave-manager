@@ -152,6 +152,27 @@ Database : Supabase PostgreSQL
 - Pagination
 - Admin Analytics
 
+## 🎮 How to Use Application
+
+To test and review the application, you can log in using the pre-configured accounts.
+
+### Manager Account (HR)
+Use this account to review, approve, or reject employee leave requests and view metrics.
+- **Username:** `manager@gcu.in`
+- **Password:** `ZollidMngr#Leave99`
+
+### Employee Accounts
+Use these accounts to apply for leaves, upload documents, and view your leave history and balances.
+All employee accounts share the following password:
+- **Password:** `Employee@123`
+
+**Available Employee Usernames:**
+- `michael`
+- `sarah`
+- `david`
+- `emily`
+- `James`
+
 ---
 
 ## 👨‍💻 Author
