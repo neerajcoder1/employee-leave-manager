@@ -143,15 +143,24 @@ const Login = ({ onNavigate }) => {
                 transition: 'all 0.3s ease',
                 transform: autoFilled ? 'scale(0.98)' : 'scale(1)'
               }}
-              onClick={() => {
+              onClick={async () => {
                 setUsername('manager@gcu.in');
                 setPassword('ZollidMngr#Leave99');
                 setAutoFilled(true);
-                setTimeout(() => setAutoFilled(false), 2500);
+                
+                // Immediately attempt login
+                setLoading(true);
+                const result = await login('manager@gcu.in', 'ZollidMngr#Leave99');
+                setLoading(false);
+                
+                if (!result.success) {
+                  setError(result.message);
+                  setAutoFilled(false);
+                }
               }}
               disabled={loading}
             >
-              {autoFilled ? '✅ Done! Now click Sign In' : '📋 Auto-Fill Manager Credentials'}
+              {autoFilled || loading ? '✅ Logging in...' : '📋 Auto-Fill Manager Credentials'}
             </button>
 
             <button 
