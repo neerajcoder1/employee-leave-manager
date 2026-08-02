@@ -592,7 +592,19 @@ const ManagerDashboard = () => {
           borderRadius: "12px",
         }}
       >
-        <div style={{ maxWidth: "440px", margin: "1rem auto" }}>
+        <div style={{ maxWidth: "440px", margin: "1rem auto", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <h2 
+            className="welcome-animation" 
+            style={{ 
+              marginBottom: "-0.5rem", 
+              fontSize: "1.2rem", 
+              fontWeight: "400", 
+              letterSpacing: "2px", 
+              textTransform: "uppercase" 
+            }}
+          >
+            Welcome Back,
+          </h2>
           <TextHoverEffect text="MANAGER" strokeWidth={0.5} opacity={0.75} />
         </div>
       </section>
