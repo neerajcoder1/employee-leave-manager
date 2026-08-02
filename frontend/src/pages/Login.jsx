@@ -130,6 +130,19 @@ const Login = ({ onNavigate }) => {
 
             {/* Remember Me removed for strict tab-isolation security */}
 
+            <button
+              type="button"
+              className="btn btn-secondary"
+              style={{ width: '100%', marginBottom: '1rem', background: 'var(--bg-card-hover)', color: 'var(--text-primary)', border: '1px dashed var(--border-color)' }}
+              onClick={() => {
+                setUsername('manager@gcu.in');
+                setPassword('ZollidMngr#Leave99');
+              }}
+              disabled={loading}
+            >
+              📋 Auto-Fill HR/Manager Credentials
+            </button>
+
             <button 
               type="submit" 
               className="btn btn-primary" 
