@@ -1486,3 +1486,43 @@ body {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Auto-Fill 3D Button */
+/* -------------------------------------------------------------------------- */
+.auto-fill-btn {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: linear-gradient(145deg, var(--bg-card-hover), var(--bg-card));
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 0 var(--border-hover), 0 5px 10px rgba(0,0,0,0.2);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.auto-fill-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--border-focus), 0 8px 15px rgba(0,0,0,0.3);
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-card-hover));
+}
+
+.auto-fill-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 transparent, 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.auto-fill-btn.filled {
+  background: var(--success-glow);
+  color: var(--success-color);
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 transparent;
+  transform: translateY(4px) scale(0.98);
+}

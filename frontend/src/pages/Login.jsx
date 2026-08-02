@@ -133,16 +133,7 @@ const Login = ({ onNavigate }) => {
 
             <button
               type="button"
-              className="btn btn-secondary"
-              style={{ 
-                width: '100%', 
-                marginBottom: '1rem', 
-                background: autoFilled ? 'var(--success-glow)' : 'var(--bg-card-hover)', 
-                color: autoFilled ? 'var(--success-color)' : 'var(--text-primary)', 
-                border: autoFilled ? '1px solid var(--success-color)' : '1px dashed var(--border-color)',
-                transition: 'all 0.3s ease',
-                transform: autoFilled ? 'scale(0.98)' : 'scale(1)'
-              }}
+              className={`auto-fill-btn ${autoFilled ? 'filled' : ''}`}
               onClick={async () => {
                 setUsername('manager@gcu.in');
                 setPassword('ZollidMngr#Leave99');
