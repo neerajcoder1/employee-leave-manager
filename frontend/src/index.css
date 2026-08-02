@@ -1476,3 +1476,13 @@ body {
     background-position: 200% center;
   }
 }
+
+@keyframes fadeOutSplash {
+  0% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes pulseScale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
