@@ -164,14 +164,14 @@ Use this account to review, approve, or reject employee leave requests and view 
 ### Employee Accounts
 Use these accounts to apply for leaves, upload documents, and view your leave history and balances.
 All employee accounts share the following password:
-- **Password:** `Employee@123`
+- **Password:** `Welcome@2026`
 
 **Available Employee Usernames:**
 - `michael`
 - `sarah`
 - `david`
 - `emily`
-- `James`
+- `james`
 
 ---
 
