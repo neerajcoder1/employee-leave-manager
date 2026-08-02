@@ -22,9 +22,6 @@ const app = express();
 // Trust first proxy (Render, Vercel, etc.) — required for express-rate-limit
 app.set("trust proxy", 1);
 
-// 1. Security & Performance Middleware
-app.use(helmet());
-
 // CORS Whitelist Configuration (anti-Security Misconfiguration)
 const coreOrigins = [
   "http://localhost:5000",
@@ -35,6 +32,18 @@ const extraOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
   : [];
 const whitelist = [...new Set([...coreOrigins, ...extraOrigins])];
+
+// 1. Security & Performance Middleware
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "frame-ancestors": ["'self'", ...whitelist],
+    },
+  },
+  frameguard: false, // Delegate framing protection to CSP frame-ancestors
+}));
 
 app.use(
   cors({
