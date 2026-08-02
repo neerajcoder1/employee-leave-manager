@@ -4,6 +4,11 @@ const SplashScreen = ({ onComplete }) => {
   const [fadingOut, setFadingOut] = useState(false);
 
   useEffect(() => {
+    // 🚀 BACKGROUND WAKE UP PING
+    // Fire and forget a ping to the Render backend to wake it up during the splash screen!
+    fetch('https://employee-leave-api-62a7.onrender.com/api/health')
+      .catch(() => {}); // ignore errors, we just want to hit the server
+
     // Show splash for 3.5 seconds, then start fading out
     const fadeTimer = setTimeout(() => {
       setFadingOut(true);

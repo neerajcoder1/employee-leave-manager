@@ -100,6 +100,11 @@ app.use("/uploads", uploadRoutes);
 // 4. API Documentation Route (Guarded: Dev only - anti-Information Disclosure)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+// Health check endpoint for Render pre-warming
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok", message: "Server is awake!" });
+});
+
 // 5. API Routes Mounting
 app.use("/api/auth", authRoutes);
 app.use("/api/employee", employeeRoutes);
