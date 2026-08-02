@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import FAQ from '../components/FAQ';
+import LoginOverlay from '../components/LoginOverlay';
 
 const Login = ({ onNavigate }) => {
   const { login } = useAuth();
@@ -33,6 +34,7 @@ const Login = ({ onNavigate }) => {
 
   return (
     <>
+      <LoginOverlay isActive={loading} />
       <div className="auth-wrapper">
         <div className="card-panel auth-card" style={{ boxShadow: 'var(--shadow-lg)' }}>
           <div className="auth-header blur-reveal" style={{ animationDelay: '200ms' }}>

@@ -5,7 +5,6 @@ import Register from './pages/Register';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import ManagerDashboard from './pages/ManagerDashboard';
 import Footer from './components/Footer';
-import SplashScreen from './components/SplashScreen';
 
 // Glowing Tetris grid block background component using Canvas
 const TetrisBackground = () => {
@@ -240,7 +239,6 @@ const NavigationGateway = () => {
 
 function App() {
   const [theme, setTheme] = useState('dark');
-  const [showSplash, setShowSplash] = useState(true);
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
@@ -251,7 +249,6 @@ function App() {
   return (
     <AuthProvider>
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
         <TetrisBackground />
         <button 
           className="theme-toggle-btn" 
