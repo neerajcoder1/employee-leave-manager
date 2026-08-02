@@ -11,6 +11,7 @@ const Login = ({ onNavigate }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showForgotModal, setShowForgotModal] = useState(false);
+  const [autoFilled, setAutoFilled] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,14 +134,24 @@ const Login = ({ onNavigate }) => {
             <button
               type="button"
               className="btn btn-secondary"
-              style={{ width: '100%', marginBottom: '1rem', background: 'var(--bg-card-hover)', color: 'var(--text-primary)', border: '1px dashed var(--border-color)' }}
+              style={{ 
+                width: '100%', 
+                marginBottom: '1rem', 
+                background: autoFilled ? 'var(--success-glow)' : 'var(--bg-card-hover)', 
+                color: autoFilled ? 'var(--success-color)' : 'var(--text-primary)', 
+                border: autoFilled ? '1px solid var(--success-color)' : '1px dashed var(--border-color)',
+                transition: 'all 0.3s ease',
+                transform: autoFilled ? 'scale(0.98)' : 'scale(1)'
+              }}
               onClick={() => {
                 setUsername('manager@gcu.in');
                 setPassword('ZollidMngr#Leave99');
+                setAutoFilled(true);
+                setTimeout(() => setAutoFilled(false), 2500);
               }}
               disabled={loading}
             >
-              📋 Auto-Fill HR/Manager Credentials
+              {autoFilled ? '✅ Done! Now click Sign In' : '📋 Auto-Fill Manager Credentials'}
             </button>
 
             <button 
