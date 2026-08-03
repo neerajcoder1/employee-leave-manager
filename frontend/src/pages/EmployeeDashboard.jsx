@@ -5,8 +5,10 @@ import TextHoverEffect from "../components/TextHoverEffect";
 import LeaveBalanceCard from "../components/LeaveBalanceCard";
 import AnimatedNumber from "../components/AnimatedNumber";
 
-const popSound = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
-popSound.preload = 'auto';
+const popSound = new Audio(
+  "https://actions.google.com/sounds/v1/cartoon/pop.ogg",
+);
+popSound.preload = "auto";
 
 // 2. Skeleton Loading Component for Dashboard
 const DashboardSkeleton = () => (
@@ -65,8 +67,8 @@ const EmployeeDashboard = () => {
   const [previewDocument, setPreviewDocument] = useState(null); // URL or null
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  
-  const [downloadState, setDownloadState] = useState('idle'); // 'idle', 'downloading', 'success', 'error'
+
+  const [downloadState, setDownloadState] = useState("idle"); // 'idle', 'downloading', 'success', 'error'
   const [downloadProgress, setDownloadProgress] = useState(0);
 
   const pollerRef = useRef(null);
@@ -127,8 +129,11 @@ const EmployeeDashboard = () => {
       if (result.success && result.data.length > 0) {
         let hasNewNotifications = false;
         result.data.forEach((notification) => {
-          const type = notification.message.toLowerCase().includes('approved') ? 'success' : 
-                       notification.message.toLowerCase().includes('rejected') ? 'error' : 'info';
+          const type = notification.message.toLowerCase().includes("approved")
+            ? "success"
+            : notification.message.toLowerCase().includes("rejected")
+              ? "error"
+              : "info";
           addToast(type, "Leave Status Updated", notification.message);
           hasNewNotifications = true;
 
@@ -140,15 +145,19 @@ const EmployeeDashboard = () => {
             },
           ).catch((err) => console.error("Error marking read:", err));
         });
-        
+
         setNotifications((prev) => [...result.data, ...prev].slice(0, 20)); // Keep last 20
 
         // Refresh dashboard balances and history dynamically when a notification is received
         if (hasNewNotifications) {
           // Play sound
           popSound.currentTime = 0;
-          popSound.play().catch(e => console.log('Audio playback prevented by browser:', e));
-          
+          popSound
+            .play()
+            .catch((e) =>
+              console.log("Audio playback prevented by browser:", e),
+            );
+
           fetchData();
         }
       }
@@ -217,10 +226,13 @@ const EmployeeDashboard = () => {
     e.preventDefault();
     setFormError("");
 
-    const finalReason = reasonCategory === "Other" ? reason.trim() : reasonCategory;
+    const finalReason =
+      reasonCategory === "Other" ? reason.trim() : reasonCategory;
 
     if (!startDate || !endDate || !finalReason || !file) {
-      setFormError("Please fill in all required fields and upload a supporting document.");
+      setFormError(
+        "Please fill in all required fields and upload a supporting document.",
+      );
       return;
     }
 
@@ -291,7 +303,7 @@ const EmployeeDashboard = () => {
 
   // Custom Download Handler with 3D Animation & Blob fetching
   const handleDownloadDocument = async (docPath) => {
-    setDownloadState('downloading');
+    setDownloadState("downloading");
     setDownloadProgress(0);
 
     // Simulate progress for the "3D animation" effect
@@ -310,20 +322,20 @@ const EmployeeDashboard = () => {
 
       clearInterval(progressInterval);
       setDownloadProgress(100);
-      setDownloadState('success');
+      setDownloadState("success");
 
       // Trigger actual download
       const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = downloadUrl;
 
       let filename = "document";
-      const disposition = response.headers.get('content-disposition');
-      if (disposition && disposition.indexOf('filename=') !== -1) {
+      const disposition = response.headers.get("content-disposition");
+      if (disposition && disposition.indexOf("filename=") !== -1) {
         const matches = /filename="([^"]+)"/.exec(disposition);
         if (matches != null && matches[1]) filename = matches[1];
       } else {
-        const pathParts = docPath.split('/');
+        const pathParts = docPath.split("/");
         filename = pathParts[pathParts.length - 1];
       }
 
@@ -334,18 +346,22 @@ const EmployeeDashboard = () => {
       window.URL.revokeObjectURL(downloadUrl);
 
       // Show success toast
-      addToast("success", "Download Complete", "The document has been successfully downloaded.");
+      addToast(
+        "success",
+        "Download Complete",
+        "The document has been successfully downloaded.",
+      );
 
       // Close modal after a short delay (Redirects to dashboard view)
       setTimeout(() => {
-        setDownloadState('idle');
+        setDownloadState("idle");
         setPreviewDocument(null);
       }, 1500);
     } catch (error) {
       clearInterval(progressInterval);
-      setDownloadState('error');
+      setDownloadState("error");
       addToast("error", "Download Failed", "Failed to download the document.");
-      setTimeout(() => setDownloadState('idle'), 2000);
+      setTimeout(() => setDownloadState("idle"), 2000);
     }
   };
 
@@ -359,7 +375,7 @@ const EmployeeDashboard = () => {
     if (!path) return "";
     const baseUrl = import.meta.env.VITE_API_URL.replace(/\/api$/, "");
     const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-    return `${baseUrl}${normalizedPath}?token=${token}${download ? '&download=1' : ''}`;
+    return `${baseUrl}${normalizedPath}?token=${token}${download ? "&download=1" : ""}`;
   };
 
   // Render Document Preview Modal Content
@@ -485,8 +501,6 @@ const EmployeeDashboard = () => {
   const sickAvailable = profile?.balances?.sick ?? 0;
   const sickUsed = Math.max(10 - sickAvailable, 0);
 
-
-
   return (
     <div className="dashboard-container">
       {/* Toast Mount */}
@@ -504,18 +518,33 @@ const EmployeeDashboard = () => {
 
       {/* SaaS Navigation Header */}
       <header className="navbar">
-        <div className="logo" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '0.5rem' }}>
-          <img src="/zollid-logo.png" alt="Zollid Logo" style={{ height: '36px', objectFit: 'contain' }} />
+        <div
+          className="logo"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+            gap: "0.5rem",
+          }}
+        >
+          <img
+            src="zollid-logo.png"
+            alt="Zollid Logo"
+            style={{ height: "36px", objectFit: "contain" }}
+          />
           <span className="navbar-logo-text">Zollid</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
           {/* Notification bell dropdown */}
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: "relative" }}>
             <button
               style={{
                 background: "none",
                 border: "none",
-                color: notifications.length > 0 ? "var(--accent-color)" : "var(--text-secondary)",
+                color:
+                  notifications.length > 0
+                    ? "var(--accent-color)"
+                    : "var(--text-secondary)",
                 cursor: "pointer",
                 position: "relative",
                 display: "flex",
@@ -526,37 +555,132 @@ const EmployeeDashboard = () => {
               onClick={() => setShowNotifications(!showNotifications)}
               aria-label="Notifications"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
               </svg>
               {notifications.length > 0 && (
-                <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: 'var(--danger-color)', color: '#fff', fontSize: '0.65rem', fontWeight: 'bold', width: '14px', height: '14px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {notifications.length > 9 ? '9+' : notifications.length}
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "-4px",
+                    right: "-4px",
+                    background: "var(--danger-color)",
+                    color: "#fff",
+                    fontSize: "0.65rem",
+                    fontWeight: "bold",
+                    width: "14px",
+                    height: "14px",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {notifications.length > 9 ? "9+" : notifications.length}
                 </span>
               )}
             </button>
             {showNotifications && (
               <>
-                <div className="mobile-notification-backdrop" onClick={() => setShowNotifications(false)}></div>
+                <div
+                  className="mobile-notification-backdrop"
+                  onClick={() => setShowNotifications(false)}
+                ></div>
                 <div className="notification-dropdown">
-                  <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <button onClick={() => setShowNotifications(false)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0' }} aria-label="Close Notifications">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                  <div
+                    style={{
+                      padding: "0.75rem 1rem",
+                      borderBottom: "1px solid var(--border-color)",
+                      fontWeight: "600",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
+                      <button
+                        onClick={() => setShowNotifications(false)}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "var(--text-secondary)",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "0",
+                        }}
+                        aria-label="Close Notifications"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <line x1="19" y1="12" x2="5" y2="12"></line>
+                          <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
                       </button>
                       <span>Notifications</span>
                     </div>
                     {notifications.length > 0 && (
-                      <button onClick={() => setNotifications([])} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.75rem', cursor: 'pointer' }}>Clear</button>
+                      <button
+                        onClick={() => setNotifications([])}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "var(--text-secondary)",
+                          fontSize: "0.75rem",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Clear
+                      </button>
                     )}
                   </div>
-                  <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  <div style={{ maxHeight: "300px", overflowY: "auto" }}>
                     {notifications.length === 0 ? (
-                      <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No new notifications</div>
+                      <div
+                        style={{
+                          padding: "2rem 1rem",
+                          textAlign: "center",
+                          color: "var(--text-secondary)",
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        No new notifications
+                      </div>
                     ) : (
                       notifications.map((n, i) => (
-                        <div key={i} style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                        <div
+                          key={i}
+                          style={{
+                            padding: "0.75rem 1rem",
+                            borderBottom: "1px solid var(--border-color)",
+                            fontSize: "0.85rem",
+                            color: "var(--text-primary)",
+                          }}
+                        >
                           {n.message}
                         </div>
                       ))
@@ -643,20 +767,32 @@ const EmployeeDashboard = () => {
           borderRadius: "12px",
         }}
       >
-        <div style={{ maxWidth: "440px", margin: "1rem auto", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <h2 
-            className="welcome-animation" 
-            style={{ 
-              marginBottom: "-0.5rem", 
-              fontSize: "1.2rem", 
-              fontWeight: "400", 
-              letterSpacing: "2px", 
-              textTransform: "uppercase" 
+        <div
+          style={{
+            maxWidth: "440px",
+            margin: "1rem auto",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <h2
+            className="welcome-animation"
+            style={{
+              marginBottom: "-0.5rem",
+              fontSize: "1.2rem",
+              fontWeight: "400",
+              letterSpacing: "2px",
+              textTransform: "uppercase",
             }}
           >
             Welcome Back,
           </h2>
-          <TextHoverEffect text={(profile?.username || "EMPLOYEE").toUpperCase()} strokeWidth={0.5} opacity={0.75} />
+          <TextHoverEffect
+            text={(profile?.username || "EMPLOYEE").toUpperCase()}
+            strokeWidth={0.5}
+            opacity={0.75}
+          />
         </div>
         <div
           style={{
@@ -864,8 +1000,13 @@ const EmployeeDashboard = () => {
                             {leave.leave_type}
                           </td>
                           <td>
-                            {new Date(leave.start_date).toLocaleDateString('en-IN')} –{" "}
-                            {new Date(leave.end_date).toLocaleDateString('en-IN')}
+                            {new Date(leave.start_date).toLocaleDateString(
+                              "en-IN",
+                            )}{" "}
+                            –{" "}
+                            {new Date(leave.end_date).toLocaleDateString(
+                              "en-IN",
+                            )}
                           </td>
                           <td>
                             {duration} {duration === 1 ? "day" : "days"}
@@ -1022,7 +1163,6 @@ const EmployeeDashboard = () => {
                 >
                   <option value="Annual">Annual Leave (15 days)</option>
                   <option value="Sick">Sick Leave (10 days)</option>
-
                 </select>
               </div>
 
@@ -1061,15 +1201,33 @@ const EmployeeDashboard = () => {
                   className="form-control"
                   value={reasonCategory}
                   onChange={(e) => setReasonCategory(e.target.value)}
-                  style={{ marginBottom: reasonCategory === "Other" ? "1rem" : "0" }}
+                  style={{
+                    marginBottom: reasonCategory === "Other" ? "1rem" : "0",
+                  }}
                   required
                 >
-                  <option value="" disabled>Select a reason...</option>
+                  <option value="" disabled>
+                    Select a reason...
+                  </option>
                   {(leaveType === "Annual"
-                    ? ["Vacation / Holiday", "Family Event / Wedding", "Personal Errands", "Religious Observance", "Other"]
-                    : ["Personal Illness (Fever, Cold, etc.)", "Doctor's Appointment", "Medical Emergency", "Family Member Illness", "Other"]
+                    ? [
+                        "Vacation / Holiday",
+                        "Family Event / Wedding",
+                        "Personal Errands",
+                        "Religious Observance",
+                        "Other",
+                      ]
+                    : [
+                        "Personal Illness (Fever, Cold, etc.)",
+                        "Doctor's Appointment",
+                        "Medical Emergency",
+                        "Family Member Illness",
+                        "Other",
+                      ]
                   ).map((opt) => (
-                    <option key={opt} value={opt}>{opt}</option>
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
                   ))}
                 </select>
 
@@ -1088,7 +1246,8 @@ const EmployeeDashboard = () => {
 
               <div className="form-group" style={{ marginBottom: "1.75rem" }}>
                 <label className="form-label" style={{ display: "block" }}>
-                  Supporting Document <span style={{ color: "var(--danger-color)" }}>*</span>
+                  Supporting Document{" "}
+                  <span style={{ color: "var(--danger-color)" }}>*</span>
                 </label>
                 <div
                   className={`file-upload-zone ${isDragOver ? "dragover" : ""}`}
@@ -1232,42 +1391,120 @@ const EmployeeDashboard = () => {
               </button>
             </div>
 
-            <div className="modal-body" style={{ height: "60vh", padding: 0, position: "relative" }}>
+            <div
+              className="modal-body"
+              style={{ height: "60vh", padding: 0, position: "relative" }}
+            >
               {renderPreviewContent(previewDocument)}
-              
+
               {/* 3D Download Overlay */}
-              {downloadState !== 'idle' && (
-                <div style={{
-                  position: 'absolute',
-                  top: 0, left: 0, right: 0, bottom: 0,
-                  background: 'rgba(15, 23, 42, 0.85)',
-                  backdropFilter: 'blur(8px)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  zIndex: 10,
-                  borderRadius: '8px'
-                }}>
-                  {downloadState === 'downloading' && (
-                    <div style={{ width: '80%', maxWidth: '400px', textAlign: 'center' }}>
-                      <h3 style={{ marginBottom: '1rem', color: '#fff', fontSize: '1.2rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Downloading Document...</h3>
+              {downloadState !== "idle" && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: "rgba(15, 23, 42, 0.85)",
+                    backdropFilter: "blur(8px)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    zIndex: 10,
+                    borderRadius: "8px",
+                  }}
+                >
+                  {downloadState === "downloading" && (
+                    <div
+                      style={{
+                        width: "80%",
+                        maxWidth: "400px",
+                        textAlign: "center",
+                      }}
+                    >
+                      <h3
+                        style={{
+                          marginBottom: "1rem",
+                          color: "#fff",
+                          fontSize: "1.2rem",
+                          textShadow: "0 2px 4px rgba(0,0,0,0.5)",
+                        }}
+                      >
+                        Downloading Document...
+                      </h3>
                       <div className="progress-3d-container">
-                        <div className="progress-3d-bar" style={{ width: `${downloadProgress}%` }}></div>
+                        <div
+                          className="progress-3d-bar"
+                          style={{ width: `${downloadProgress}%` }}
+                        ></div>
                       </div>
-                      <p style={{ marginTop: '0.75rem', color: 'var(--text-secondary)', fontWeight: '600' }}>{downloadProgress}%</p>
+                      <p
+                        style={{
+                          marginTop: "0.75rem",
+                          color: "var(--text-secondary)",
+                          fontWeight: "600",
+                        }}
+                      >
+                        {downloadProgress}%
+                      </p>
                     </div>
                   )}
-                  
-                  {downloadState === 'success' && (
-                    <div className="card-panel success-pop-in" style={{ padding: '2rem', textAlign: 'center', background: 'var(--bg-card)', border: '1px solid var(--success-color)' }}>
-                      <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto' }}>
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+
+                  {downloadState === "success" && (
+                    <div
+                      className="card-panel success-pop-in"
+                      style={{
+                        padding: "2rem",
+                        textAlign: "center",
+                        background: "var(--bg-card)",
+                        border: "1px solid var(--success-color)",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "64px",
+                          height: "64px",
+                          borderRadius: "50%",
+                          background: "rgba(16, 185, 129, 0.1)",
+                          color: "var(--success-color)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "0 auto 1rem auto",
+                        }}
+                      >
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                       </div>
-                      <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Successfully Downloaded!</h3>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Returning to dashboard...</p>
+                      <h3
+                        style={{
+                          fontSize: "1.25rem",
+                          color: "var(--text-primary)",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        Successfully Downloaded!
+                      </h3>
+                      <p
+                        style={{
+                          color: "var(--text-secondary)",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        Returning to dashboard...
+                      </p>
                     </div>
                   )}
                 </div>
@@ -1284,7 +1521,7 @@ const EmployeeDashboard = () => {
               <button
                 type="button"
                 onClick={() => handleDownloadDocument(previewDocument)}
-                disabled={downloadState !== 'idle'}
+                disabled={downloadState !== "idle"}
                 className="btn btn-primary btn-sm"
                 style={{
                   display: "flex",
