@@ -527,11 +527,24 @@ const EmployeeDashboard = () => {
             gap: "0.5rem",
           }}
         >
-          <img
-            src="/zollid-logo.png"
-            alt="Zollid Logo"
-            style={{ height: "36px", objectFit: "contain" }}
-          />
+          <div style={{
+            width: '48px',
+            height: '48px',
+            borderRadius: '50%',
+            overflow: 'hidden',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            border: '1px solid var(--border-color)',
+            boxShadow: 'var(--shadow-sm)'
+          }}>
+            <img
+              src="/zollid-logo.png"
+              alt="Zollid Logo"
+              style={{ height: '70px', width: 'auto', objectFit: 'cover' }}
+            />
+          </div>
           <span className="navbar-logo-text">Zollid</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
