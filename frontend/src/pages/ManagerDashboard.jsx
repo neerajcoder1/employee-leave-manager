@@ -576,7 +576,7 @@ const ManagerDashboard = () => {
           <img
             src="/zollid-logo.png"
             alt="Zollid Logo"
-            style={{ height: '64px', width: 'auto', objectFit: 'contain' }}
+            style={{ height: '64px', width: '64px', objectFit: 'cover' }}
           />
           <span className="navbar-logo-text">Zollid</span>
         </div>
