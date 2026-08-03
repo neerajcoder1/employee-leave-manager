@@ -120,6 +120,7 @@ const ManagerDashboard = () => {
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const pendingCountRef = React.useRef(-1);
+  const pollerRef = React.useRef(null);
 
   // Filters, Searches & Sorts States
   const [searchQuery, setSearchQuery] = useState("");
@@ -214,6 +215,13 @@ const ManagerDashboard = () => {
 
   useEffect(() => {
     fetchData();
+    
+    // Poll for updates every 5 seconds for real-time notifications
+    pollerRef.current = setInterval(() => {
+      fetchData();
+    }, 5000);
+
+    return () => clearInterval(pollerRef.current);
   }, [token]);
 
   // Open decision remarks confirmation modal
