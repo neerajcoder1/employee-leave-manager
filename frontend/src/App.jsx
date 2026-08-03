@@ -173,7 +173,7 @@ const WelcomeScreen = ({ user, onComplete }) => {
           }}
         >
           {messageIndex === messages.length - 1 ? (
-            <>{greeting}, <span style={{ color: 'var(--accent-color)' }}>{user.username.split('@')[0]}</span></>
+            <>{greeting}, <span style={{ color: 'var(--accent-color)' }}>{user.username.split('@')[0].charAt(0).toUpperCase() + user.username.split('@')[0].slice(1)}</span></>
           ) : (
             messages[messageIndex]
           )}
