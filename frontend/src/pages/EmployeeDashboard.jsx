@@ -5,6 +5,9 @@ import TextHoverEffect from "../components/TextHoverEffect";
 import LeaveBalanceCard from "../components/LeaveBalanceCard";
 import AnimatedNumber from "../components/AnimatedNumber";
 
+const popSound = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
+popSound.preload = 'auto';
+
 // 2. Skeleton Loading Component for Dashboard
 const DashboardSkeleton = () => (
   <div className="dashboard-container">
@@ -143,8 +146,8 @@ const EmployeeDashboard = () => {
         // Refresh dashboard balances and history dynamically when a notification is received
         if (hasNewNotifications) {
           // Play sound
-          const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
-          audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
+          popSound.currentTime = 0;
+          popSound.play().catch(e => console.log('Audio playback prevented by browser:', e));
           
           fetchData();
         }

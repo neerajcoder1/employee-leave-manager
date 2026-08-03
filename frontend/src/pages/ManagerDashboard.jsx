@@ -110,6 +110,9 @@ const ManagerSkeleton = () => (
   </div>
 );
 
+const popSound = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
+popSound.preload = 'auto';
+
 const ManagerDashboard = () => {
   const { token, logout, user } = useAuth();
   const [activeTab, setActiveTab] = useState("requests"); // 'requests' or 'employees'
@@ -188,8 +191,8 @@ const ManagerDashboard = () => {
           setNotifications(initialNotifs.slice(0, 20));
         } else if (currentPending > pendingCountRef.current) {
           // Play sound
-          const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
-          audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
+          popSound.currentTime = 0;
+          popSound.play().catch(e => console.log('Audio playback prevented by browser:', e));
           
           // Add notifications
           const newCount = currentPending - pendingCountRef.current;
@@ -227,8 +230,8 @@ const ManagerDashboard = () => {
         const currentPending = pendingLeaves.length;
 
         if (currentPending > pendingCountRef.current) {
-          const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
-          audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
+          popSound.currentTime = 0;
+          popSound.play().catch(e => console.log('Audio playback prevented by browser:', e));
           
           const newCount = currentPending - pendingCountRef.current;
           const newNotifs = Array(newCount).fill({ message: "New leave request submitted" });
