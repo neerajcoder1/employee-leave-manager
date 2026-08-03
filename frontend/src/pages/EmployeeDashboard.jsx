@@ -530,7 +530,7 @@ const EmployeeDashboard = () => {
           <img
             src="/zollid-logo.png"
             alt="Zollid Logo"
-            style={{ height: '64px', width: '64px', objectFit: 'cover' }}
+            style={{ height: '90px', width: '90px', objectFit: 'cover' }}
           />
           <span className="navbar-logo-text">Zollid</span>
         </div>
