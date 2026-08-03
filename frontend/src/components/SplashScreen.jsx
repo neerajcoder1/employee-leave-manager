@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 const SplashScreen = ({ onComplete }) => {
   const [fadingOut, setFadingOut] = useState(false);
-  const [countdown, setCountdown] = useState(45);
+  const [countdown, setCountdown] = useState(30);
   const [serverReady, setServerReady] = useState(false);
   const isMounted = useRef(true);
 
@@ -124,7 +124,7 @@ const SplashScreen = ({ onComplete }) => {
             textAlign: 'center'
           }}
         >
-          Zollid Leave Portal
+          Zollid Portal
         </h1>
         <div style={{ 
           marginTop: '1.5rem', 
@@ -133,7 +133,7 @@ const SplashScreen = ({ onComplete }) => {
           letterSpacing: '3px',
           fontFamily: 'monospace'
         }}>
-          {serverReady ? 'SERVER CONNECTED' : `WAKING SERVER: ${countdown}s`}
+          {serverReady ? 'SERVER CONNECTED' : countdown > 0 ? `WAKING SERVER: ${countdown}s` : <span style={{ animation: 'pulse 1.5s infinite', display: 'inline-block' }}>CONNECTING...</span>}
         </div>
       </div>
     </div>

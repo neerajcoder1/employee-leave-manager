@@ -207,7 +207,7 @@ const NavigationGateway = () => {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <div className="logo" style={{ fontSize: '2rem', animation: 'pulse 1.5s infinite' }}>
-          Loading Zollid Leave Portal...
+          Loading Zollid Portal...
         </div>
       </div>
     );
