@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 const LoginOverlay = ({ isActive }) => {
-  const [countdown, setCountdown] = useState(45);
+  const [countdown, setCountdown] = useState(30);
 
   useEffect(() => {
     let timer;
     if (isActive) {
-      setCountdown(45);
+      setCountdown(30);
       timer = setInterval(() => {
         setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
