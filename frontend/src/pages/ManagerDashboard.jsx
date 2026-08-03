@@ -214,6 +214,39 @@ const ManagerDashboard = () => {
     } finally {
       setLoading(false);
     }
+  const checkNewRequests = async () => {
+    try {
+      const headers = { Authorization: `Bearer ${token}` };
+      const leavesRes = await fetch(`${import.meta.env.VITE_API_URL}/manager/leaves`, { headers });
+      const leavesData = await leavesRes.json();
+
+      if (leavesData.success) {
+        const pendingLeaves = leavesData.data.filter(l => l.status === 'pending');
+        const currentPending = pendingLeaves.length;
+
+        if (currentPending > pendingCountRef.current) {
+          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+          audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
+          
+          const newCount = currentPending - pendingCountRef.current;
+          const newNotifs = Array(newCount).fill({ message: "New leave request submitted" });
+          setNotifications(prev => [...newNotifs, ...prev].slice(0, 20));
+          
+          addToast("success", "New Request", `${newCount} new leave request${newCount > 1 ? 's' : ''} submitted.`);
+        }
+        pendingCountRef.current = currentPending;
+
+        // Only update state if data changed (avoid UI flashing/re-rendering)
+        setLeaves(prev => {
+          if (JSON.stringify(prev) !== JSON.stringify(leavesData.data)) {
+            return leavesData.data;
+          }
+          return prev;
+        });
+      }
+    } catch (err) {
+      console.error("Background poll error:", err);
+    }
   };
 
   useEffect(() => {
@@ -221,7 +254,7 @@ const ManagerDashboard = () => {
     
     // Poll for updates every 5 seconds for real-time notifications
     pollerRef.current = setInterval(() => {
-      fetchData();
+      checkNewRequests();
     }, 5000);
 
     return () => clearInterval(pollerRef.current);
