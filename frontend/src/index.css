@@ -648,6 +648,22 @@ body {
   }
 }
 
+/* Navbar Logo styling */
+.navbar .logo img {
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  background-color: #fff;
+  aspect-ratio: 1 / 1;
+  object-fit: cover !important;
+}
+
+.navbar .logo img:hover {
+  transform: scale(1.15) rotate(-5deg);
+  box-shadow: 0 0 15px var(--accent-color);
+}
+
 /* Navbar profile hover */
 .navbar-profile-trigger:hover .avatar-initials {
   transform: scale(1.08);
@@ -854,8 +870,9 @@ body {
    ========================================================================== */
 .theme-toggle-btn {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 38px;
   height: 38px;
   border-radius: 50%;
