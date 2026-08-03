@@ -587,7 +587,7 @@ const ManagerDashboard = () => {
               style={{
                 background: "none",
                 border: "none",
-                color: notifications.length > 0 ? "var(--accent-color)" : "var(--text-secondary)",
+                color: "var(--accent-color)",
                 cursor: "pointer",
                 position: "relative",
                 display: "flex",
