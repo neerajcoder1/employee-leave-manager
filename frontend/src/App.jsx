@@ -197,6 +197,9 @@ const NavigationGateway = () => {
   useEffect(() => {
     if (!user) {
       setShowWelcome(true);
+      document.body.classList.remove('dashboard-active');
+    } else {
+      document.body.classList.add('dashboard-active');
     }
   }, [user]);
 
