@@ -1,4 +1,6 @@
-# 🚀 Employee Leave Management System <img width="54" height="60" alt="favicon" src="https://github.com/user-attachments/assets/22f27289-bb3b-4ed6-b0c4-670c71843ebd" />
+
+  # Employee Leave Management System <img width="600" height="400" alt="images (1)" src="https://github.com/user-attachments/assets/90d0b399-12c0-4ab1-b009-dd705dc7aac5" />
+
 
 
 > A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
