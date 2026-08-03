@@ -650,11 +650,12 @@ body {
 
 /* Navbar Logo styling */
 .navbar .logo img {
-  border-radius: 8px; /* Slight rounding for a cleaner look */
+  border-radius: 50%;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   background-color: #fff;
-  object-fit: contain;
+  aspect-ratio: 1 / 1;
+  object-fit: cover !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
