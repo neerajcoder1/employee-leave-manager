@@ -186,7 +186,7 @@ const ManagerDashboard = () => {
         if (pendingCountRef.current === -1) {
           // Initial load: populate notifications with all currently pending leaves
           const initialNotifs = pendingLeaves.map(l => ({ 
-            message: `Pending request from ${l.employee_username || 'Employee'}` 
+            message: `Pending request from ${l.username || 'Employee'}` 
           }));
           setNotifications(initialNotifs.slice(0, 20));
         } else if (currentPending > pendingCountRef.current) {
