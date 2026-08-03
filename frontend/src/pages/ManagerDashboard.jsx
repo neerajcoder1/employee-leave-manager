@@ -176,8 +176,16 @@ const ManagerDashboard = () => {
       if (leavesData.success) {
         setLeaves(leavesData.data);
         
-        const currentPending = leavesData.data.filter(l => l.status === 'pending').length;
-        if (pendingCountRef.current !== -1 && currentPending > pendingCountRef.current) {
+        const pendingLeaves = leavesData.data.filter(l => l.status === 'pending');
+        const currentPending = pendingLeaves.length;
+        
+        if (pendingCountRef.current === -1) {
+          // Initial load: populate notifications with all currently pending leaves
+          const initialNotifs = pendingLeaves.map(l => ({ 
+            message: `Pending request from ${l.employee_username || 'Employee'}` 
+          }));
+          setNotifications(initialNotifs.slice(0, 20));
+        } else if (currentPending > pendingCountRef.current) {
           // Play sound
           const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
           audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
