@@ -15,13 +15,13 @@
   --text-muted: hsl(240, 4%, 46.1%); /* Muted placeholder/secondary */
 
   --border-color: hsl(240, 5.9%, 15%); /* High-fidelity thin borders */
-  --border-focus: hsl(263.4, 70%, 50.4%); /* Accent purple */
+  --border-focus: hsl(109, 55%, 52%); /* Accent green */
   --border-hover: hsl(240, 5.9%, 25%);
 
-  /* Accent Glow / Branding Palette */
-  --accent-color: hsl(263.4, 70%, 50.4%);
-  --accent-glow: hsla(263.4, 70%, 50.4%, 0.15);
-  --accent-hover: hsl(271, 91%, 65%);
+  /* Accent Glow / Branding Palette (Zollid Green) */
+  --accent-color: hsl(109, 55%, 52%);
+  --accent-glow: hsla(109, 55%, 52%, 0.15);
+  --accent-hover: hsl(109, 60%, 45%);
 
   --success-color: hsl(142.1, 70.6%, 45.3%);
   --success-glow: hsla(142.1, 70.6%, 45.3%, 0.1);
@@ -47,16 +47,16 @@
 }
 
 [data-theme="light"] {
-  /* Light Mode Tones (Soft Gray) */
-  --bg-app: hsl(220, 12%, 92%); /* Soft cool gray background */
-  --bg-card: hsl(220, 12%, 96%); /* Off-white / light gray for cards */
-  --bg-card-hover: hsl(220, 12%, 90%);
-  --bg-input: hsl(220, 12%, 96%);
-  --text-primary: hsl(220, 15%, 15%);
-  --text-secondary: hsl(220, 8%, 40%);
-  --text-muted: hsl(220, 8%, 60%);
-  --border-color: hsl(220, 15%, 85%);
-  --border-hover: hsl(220, 15%, 75%);
+  /* Light Mode Tones (Minty Green-White Mix) */
+  --bg-app: hsl(110, 25%, 95%); /* Soft minty background */
+  --bg-card: hsl(110, 30%, 98%); /* Almost white but tinted green for cards */
+  --bg-card-hover: hsl(110, 20%, 91%);
+  --bg-input: hsl(110, 30%, 98%);
+  --text-primary: hsl(110, 15%, 15%);
+  --text-secondary: hsl(110, 8%, 40%);
+  --text-muted: hsl(110, 8%, 60%);
+  --border-color: hsl(110, 15%, 85%);
+  --border-hover: hsl(110, 15%, 75%);
 }
 
 /* ==========================================================================
