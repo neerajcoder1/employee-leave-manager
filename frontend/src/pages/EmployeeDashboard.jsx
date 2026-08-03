@@ -534,7 +534,7 @@ const EmployeeDashboard = () => {
               )}
             </button>
             {showNotifications && (
-              <div style={{ position: 'absolute', top: '120%', right: '0', width: '300px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px', boxShadow: 'var(--shadow-lg)', zIndex: 50, overflow: 'hidden' }}>
+              <div className="notification-dropdown">
                 <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <button onClick={() => setShowNotifications(false)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0' }} aria-label="Close Notifications">
