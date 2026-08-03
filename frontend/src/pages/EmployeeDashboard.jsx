@@ -534,30 +534,33 @@ const EmployeeDashboard = () => {
               )}
             </button>
             {showNotifications && (
-              <div className="notification-dropdown">
-                <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <button onClick={() => setShowNotifications(false)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0' }} aria-label="Close Notifications">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                    </button>
-                    <span>Notifications</span>
+              <>
+                <div className="mobile-notification-backdrop" onClick={() => setShowNotifications(false)}></div>
+                <div className="notification-dropdown">
+                  <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <button onClick={() => setShowNotifications(false)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0' }} aria-label="Close Notifications">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                      </button>
+                      <span>Notifications</span>
+                    </div>
+                    {notifications.length > 0 && (
+                      <button onClick={() => setNotifications([])} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.75rem', cursor: 'pointer' }}>Clear</button>
+                    )}
                   </div>
-                  {notifications.length > 0 && (
-                    <button onClick={() => setNotifications([])} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.75rem', cursor: 'pointer' }}>Clear</button>
-                  )}
+                  <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                    {notifications.length === 0 ? (
+                      <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No new notifications</div>
+                    ) : (
+                      notifications.map((n, i) => (
+                        <div key={i} style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                          {n.message}
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
-                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                  {notifications.length === 0 ? (
-                    <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No new notifications</div>
-                  ) : (
-                    notifications.map((n, i) => (
-                      <div key={i} style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
-                        {n.message}
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
+              </>
             )}
           </div>
 

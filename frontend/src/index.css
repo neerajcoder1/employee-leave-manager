@@ -1567,9 +1567,32 @@ body {
   overflow: hidden;
 }
 
+.mobile-notification-backdrop {
+  display: none;
+}
+
 @media (max-width: 600px) {
+  .mobile-notification-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9999;
+  }
+  
   .notification-dropdown {
-    right: -60px;
-    width: 280px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 400px;
+    max-height: 80vh;
+    z-index: 10000;
   }
 }
