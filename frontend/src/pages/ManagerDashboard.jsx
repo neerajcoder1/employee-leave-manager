@@ -177,7 +177,7 @@ const ManagerDashboard = () => {
       if (leavesData.success) {
         setLeaves(leavesData.data);
         
-        const pendingLeaves = leavesData.data.filter(l => l.status === 'pending');
+        const pendingLeaves = leavesData.data.filter(l => l.status === 'Pending');
         const currentPending = pendingLeaves.length;
         
         if (pendingCountRef.current === -1) {
@@ -223,7 +223,7 @@ const ManagerDashboard = () => {
       const leavesData = await leavesRes.json();
 
       if (leavesData.success) {
-        const pendingLeaves = leavesData.data.filter(l => l.status === 'pending');
+        const pendingLeaves = leavesData.data.filter(l => l.status === 'Pending');
         const currentPending = pendingLeaves.length;
 
         if (currentPending > pendingCountRef.current) {
