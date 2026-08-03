@@ -117,6 +117,9 @@ const ManagerDashboard = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const pendingCountRef = React.useRef(-1);
 
   // Filters, Searches & Sorts States
   const [searchQuery, setSearchQuery] = useState("");
@@ -143,6 +146,9 @@ const ManagerDashboard = () => {
   const addToast = (type, title, message) => {
     const id = Date.now() + Math.random();
     setToasts((prev) => [...prev, { id, type, title, message }]);
+    setTimeout(() => {
+      removeToast(id);
+    }, 5000);
   };
 
   const removeToast = (id) => {
@@ -169,6 +175,19 @@ const ManagerDashboard = () => {
 
       if (leavesData.success) {
         setLeaves(leavesData.data);
+        
+        const currentPending = leavesData.data.filter(l => l.status === 'pending').length;
+        if (pendingCountRef.current !== -1 && currentPending > pendingCountRef.current) {
+          // Play sound
+          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+          audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
+          
+          // Add notifications
+          const newCount = currentPending - pendingCountRef.current;
+          const newNotifs = Array(newCount).fill({ message: "New leave request submitted" });
+          setNotifications(prev => [...newNotifs, ...prev].slice(0, 20));
+        }
+        pendingCountRef.current = currentPending;
       }
       if (employeesData.success) {
         setEmployees(employeesData.data);
@@ -496,25 +515,59 @@ const ManagerDashboard = () => {
 
       {/* SaaS Navigation Header */}
       <header className="navbar">
-        <div className="logo">
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          Zollid Leave
+        <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src="/zollid-logo.png" alt="Zollid Logo" style={{ height: '36px', objectFit: 'contain' }} />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+          {/* Notification bell dropdown */}
+          <div style={{ position: 'relative' }}>
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                color: notifications.length > 0 ? "var(--accent-color)" : "var(--text-secondary)",
+                cursor: "pointer",
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "color 0.2s",
+              }}
+              onClick={() => setShowNotifications(!showNotifications)}
+              aria-label="Notifications"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              {notifications.length > 0 && (
+                <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: 'var(--danger-color)', color: '#fff', fontSize: '0.65rem', fontWeight: 'bold', width: '14px', height: '14px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {notifications.length > 9 ? '9+' : notifications.length}
+                </span>
+              )}
+            </button>
+            {showNotifications && (
+              <div style={{ position: 'absolute', top: '120%', right: '0', width: '300px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px', boxShadow: 'var(--shadow-lg)', zIndex: 50, overflow: 'hidden' }}>
+                <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>Notifications</span>
+                  {notifications.length > 0 && (
+                    <button onClick={() => setNotifications([])} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.75rem', cursor: 'pointer' }}>Clear</button>
+                  )}
+                </div>
+                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  {notifications.length === 0 ? (
+                    <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No new notifications</div>
+                  ) : (
+                    notifications.map((n, i) => (
+                      <div key={i} style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                        {n.message}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
           <div
             style={{
               display: "flex",

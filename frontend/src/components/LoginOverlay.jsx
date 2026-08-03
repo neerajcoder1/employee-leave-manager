@@ -52,7 +52,9 @@ const LoginOverlay = ({ isActive }) => {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          zIndex: 1
+          zIndex: 1,
+          filter: 'blur(8px) brightness(0.9)',
+          transform: 'scale(1.05)' // prevents blur edges
         }}
         src="https://cdn.magicui.design/ocean-small.webm"
       />
@@ -92,9 +94,13 @@ const LoginOverlay = ({ isActive }) => {
           fontSize: '1.5rem', 
           fontWeight: 600, 
           letterSpacing: '3px',
-          fontFamily: 'monospace'
+          fontFamily: 'monospace',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
         }}>
           {statusText}
+          <div className="spinner" style={{ width: '24px', height: '24px', borderWidth: '3px', borderColor: '#fff transparent transparent transparent' }}></div>
         </div>
       </div>
     </div>

@@ -12,6 +12,22 @@ const Register = ({ onNavigate }) => {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const getPasswordStrength = (pass) => {
+    let score = 0;
+    if (!pass) return { score: 0, label: '', color: 'transparent' };
+    if (pass.length >= 6) score += 1;
+    if (pass.length >= 10) score += 1;
+    if (/[A-Z]/.test(pass)) score += 1;
+    if (/[0-9]/.test(pass)) score += 1;
+    if (/[^A-Za-z0-9]/.test(pass)) score += 1;
+
+    if (score <= 2) return { score: Math.max((score / 5) * 100, 15), label: 'Weak', color: 'var(--danger-color)' };
+    if (score === 3 || score === 4) return { score: (score / 5) * 100, label: 'Good', color: 'var(--accent-color)' };
+    return { score: 100, label: 'Strong', color: 'var(--success-color)' };
+  };
+
+  const strength = getPasswordStrength(password);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -139,6 +155,17 @@ const Register = ({ onNavigate }) => {
                 )}
               </button>
             </div>
+            {password && (
+              <div style={{ marginTop: '0.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px', color: 'var(--text-secondary)' }}>
+                  <span>Password Strength</span>
+                  <span style={{ color: strength.color, fontWeight: 'bold' }}>{strength.label}</span>
+                </div>
+                <div style={{ width: '100%', height: '4px', background: 'var(--bg-card-hover)', borderRadius: '2px', overflow: 'hidden' }}>
+                  <div style={{ width: `${strength.score}%`, height: '100%', background: strength.color, transition: 'all 0.3s ease' }}></div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="form-group" style={{ marginBottom: '2rem' }}>
