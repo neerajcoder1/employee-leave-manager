@@ -188,7 +188,7 @@ const ManagerDashboard = () => {
           setNotifications(initialNotifs.slice(0, 20));
         } else if (currentPending > pendingCountRef.current) {
           // Play sound
-          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+          const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
           audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
           
           // Add notifications
@@ -227,7 +227,7 @@ const ManagerDashboard = () => {
         const currentPending = pendingLeaves.length;
 
         if (currentPending > pendingCountRef.current) {
-          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+          const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
           audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
           
           const newCount = currentPending - pendingCountRef.current;

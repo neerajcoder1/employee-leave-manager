@@ -143,7 +143,7 @@ const EmployeeDashboard = () => {
         // Refresh dashboard balances and history dynamically when a notification is received
         if (hasNewNotifications) {
           // Play sound
-          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+          const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
           audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
           
           fetchData();
