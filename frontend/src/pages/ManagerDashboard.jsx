@@ -214,6 +214,8 @@ const ManagerDashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
   const checkNewRequests = async () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
