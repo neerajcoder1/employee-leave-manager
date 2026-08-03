@@ -501,8 +501,9 @@ const EmployeeDashboard = () => {
 
       {/* SaaS Navigation Header */}
       <header className="navbar">
-        <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="logo" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '0.5rem' }}>
           <img src="/zollid-logo.png" alt="Zollid Logo" style={{ height: '36px', objectFit: 'contain' }} />
+          <span className="navbar-logo-text">Zollid</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
           {/* Notification bell dropdown */}
