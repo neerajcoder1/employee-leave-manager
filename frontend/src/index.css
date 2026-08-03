@@ -674,7 +674,7 @@ body {
 }
 
 .navbar .logo img:hover {
-  box-shadow: 0 0 0 2px var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-color);
 }
 
 /* Navbar profile hover */
