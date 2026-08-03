@@ -932,8 +932,8 @@ const ManagerDashboard = () => {
                             {leave.leave_type}
                           </td>
                           <td>
-                            {new Date(leave.start_date).toLocaleDateString()} –{" "}
-                            {new Date(leave.end_date).toLocaleDateString()}
+                            {new Date(leave.start_date).toLocaleDateString('en-IN')} –{" "}
+                            {new Date(leave.end_date).toLocaleDateString('en-IN')}
                           </td>
                           <td>
                             {duration} {duration === 1 ? "day" : "days"}
@@ -1343,8 +1343,8 @@ const ManagerDashboard = () => {
               <div>
                 Dates:{" "}
                 <strong>
-                  {new Date(selectedLeave.start_date).toLocaleDateString()} to{" "}
-                  {new Date(selectedLeave.end_date).toLocaleDateString()}
+                  {new Date(selectedLeave.start_date).toLocaleDateString('en-IN')} to{" "}
+                  {new Date(selectedLeave.end_date).toLocaleDateString('en-IN')}
                 </strong>
               </div>
             </div>
