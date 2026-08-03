@@ -100,7 +100,7 @@ const TextHoverEffect = ({ text = "WELCOME", strokeWidth = 0.5, opacity = 0.75 }
         y="50%"
         textAnchor="middle"
         dominantBaseline="central"
-        fill="var(--text-primary)"
+        fill="var(--accent-color)"
         mask="url(#textMask)"
         style={{
           fontFamily: '"Outfit", "Inter", sans-serif',
