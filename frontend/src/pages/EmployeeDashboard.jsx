@@ -707,6 +707,9 @@ const EmployeeDashboard = () => {
             <span
               className="avatar-initials"
               style={{
+                background: "var(--accent-glow)",
+                color: "var(--accent-hover)",
+                border: "1px solid var(--accent-color)",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
               }}
             >
