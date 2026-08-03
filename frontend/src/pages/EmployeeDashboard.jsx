@@ -528,7 +528,7 @@ const EmployeeDashboard = () => {
           }}
         >
           <img
-            src="zollid-logo.png"
+            src="/zollid-logo.png"
             alt="Zollid Logo"
             style={{ height: "36px", objectFit: "contain" }}
           />
