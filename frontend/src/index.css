@@ -58,7 +58,6 @@
   --text-muted: hsl(110, 8%, 60%);
   --border-color: hsl(110, 15%, 85%);
   --border-hover: hsl(110, 15%, 75%);
-  --hero-hover-text: hsl(142, 60%, 25%); /* Dark green for light mode */
 }
 
 /* ==========================================================================
