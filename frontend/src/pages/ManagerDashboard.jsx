@@ -195,6 +195,9 @@ const ManagerDashboard = () => {
           const newCount = currentPending - pendingCountRef.current;
           const newNotifs = Array(newCount).fill({ message: "New leave request submitted" });
           setNotifications(prev => [...newNotifs, ...prev].slice(0, 20));
+          
+          // Show popup alert
+          addToast("success", "New Request", `${newCount} new leave request${newCount > 1 ? 's' : ''} submitted.`);
         }
         pendingCountRef.current = currentPending;
       }
