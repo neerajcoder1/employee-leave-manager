@@ -22,6 +22,7 @@
   --accent-color: hsl(109, 55%, 52%);
   --accent-glow: hsla(109, 55%, 52%, 0.15);
   --accent-hover: hsl(109, 60%, 45%);
+  --hero-hover-text: var(--accent-color);
 
   --success-color: hsl(142.1, 70.6%, 45.3%);
   --success-glow: hsla(142.1, 70.6%, 45.3%, 0.1);
@@ -57,6 +58,7 @@
   --text-muted: hsl(110, 8%, 60%);
   --border-color: hsl(110, 15%, 85%);
   --border-hover: hsl(110, 15%, 75%);
+  --hero-hover-text: hsl(142, 60%, 25%); /* Dark green for light mode */
 }
 
 /* ==========================================================================
