@@ -129,8 +129,62 @@ Designed following OWASP Top 10:2025 security best practices.
 ---
 
 ##  Folder Structure
+## 📂 Project Structure
 
-<img width="299" height="293" alt="image" src="https://github.com/user-attachments/assets/44469d85-d40a-4af4-96ea-ea46969eef94" />
+```text
+Employee-Leave-Management-System
+│
+├── backend
+│   ├── src
+│   │   ├── config
+│   │   ├── controllers
+│   │   ├── middleware
+│   │   ├── models
+│   │   ├── routes
+│   │   ├── validators
+│   │   ├── app.js
+│   │   └── server.js
+│   │
+│   ├── .env.example
+│   ├── package.json
+│   └── package-lock.json
+│
+├── frontend
+│   ├── public
+│   ├── src
+│   │   ├── assets
+│   │   ├── components
+│   │   ├── context
+│   │   ├── pages
+│   │   │   ├── EmployeeDashboard.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── ManagerDashboard.jsx
+│   │   │   └── Register.jsx
+│   │   │
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
+│   ├── .gitignore
+│   ├── .oxlintrc.json
+│   ├── README.md
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vite.config.js
+│
+├── scratch
+│   ├── run_migration.js
+│   ├── test_flow.js
+│   └── test_security.js
+│
+├── .gitignore
+├── Employee_Leave_Management_System.pdf
+├── README.md
+├── package.json
+└── package-lock.json
+```
 
 ---
 
