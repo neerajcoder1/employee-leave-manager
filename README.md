@@ -49,25 +49,24 @@
 
 ---
 
-##  System Architecture
+## 🏗️ System Architecture
 
-Frontend (Vercel)
+```mermaid
+graph TD
 
+User["👤 Employee / Admin"]
 
-        │
-        ▼
-Backend (Render)
+User --> FE["Frontend (React)<br/>Vercel"]
 
+FE --> API["REST API<br/>Node.js + Express<br/>Render"]
 
+API --> AUTH["JWT Authentication"]
 
-        │
-        ▼
-        
-Supabase PostgreSQL 
+AUTH --> DB["Supabase PostgreSQL"]
 
+API --> FILES["File Uploads"]
 
-        │
-        ▼
+```
 
 
 ##  Tech Stack
