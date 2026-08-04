@@ -34,8 +34,8 @@ const Login = ({ onNavigate }) => {
 
   return (
     <>
-      <div style={{ position: 'absolute', top: '32px', left: '36px', zIndex: 10 }}>
-        <img src="/zollid-wordmark.png" alt="Zollid" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+      <div className="login-brand-logo">
+        <img src="/zollid-wordmark.png" alt="Zollid" />
       </div>
       <LoginOverlay isActive={loading} />
       <div className="auth-wrapper">

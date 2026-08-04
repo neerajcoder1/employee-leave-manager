@@ -821,6 +821,32 @@ body {
 /* ==========================================================================
    AUTH PORTAL STYLING
    ========================================================================== */
+.login-brand-logo {
+  position: absolute;
+  top: 32px;
+  left: 36px;
+  z-index: 10;
+}
+
+.login-brand-logo img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .login-brand-logo {
+    top: 24px;
+    left: 20px;
+  }
+  .login-brand-logo img {
+    height: 22px;
+  }
+  .auth-wrapper {
+    padding-top: 5rem !important; /* Ensure enough space at the top so card doesn't overlap logo */
+  }
+}
+
 .auth-wrapper {
   display: flex;
   flex-direction: column;
