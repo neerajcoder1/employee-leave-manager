@@ -20,7 +20,7 @@
 
 ---
 
-## ✨ Features
+##  Features
 
 -  JWT Authentication
 -  Role-Based Access Control
@@ -35,7 +35,7 @@
 
 ---
 
-## 🖼 Screenshots
+##  Screenshots
 
 (Login)
 <img width="959" height="433" alt="image" src="https://github.com/user-attachments/assets/d0276053-f33c-41a5-a2f4-1f3aba4377c0" />
@@ -49,7 +49,7 @@
 
 ---
 
-## 🏗 System Architecture
+##  System Architecture
 
 Frontend (Vercel)
 
@@ -70,7 +70,7 @@ Supabase PostgreSQL
         ▼
 
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 ### Frontend
 <p>
