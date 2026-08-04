@@ -21,6 +21,7 @@
 
 ---
 
+
 ##  Features
 
 -  JWT Authentication
@@ -129,13 +130,12 @@ Designed following OWASP Top 10:2025 security best practices.
 
 ---
 
-##  Folder Structure
-## 📂 Project Structure
+<h2>📂 Project Structure</h2>
 
-```text
+<pre>
 Employee-Leave-Management-System
 │
-├── backend
+├── <img src="https://skillicons.dev/icons?i=nodejs" width="18" alt="Node.js"> backend
 │   ├── src
 │   │   ├── config
 │   │   ├── controllers
@@ -150,7 +150,7 @@ Employee-Leave-Management-System
 │   ├── package.json
 │   └── package-lock.json
 │
-├── frontend
+├── <img src="https://skillicons.dev/icons?i=react" width="18" alt="React"> frontend
 │   ├── public
 │   ├── src
 │   │   ├── assets
@@ -175,7 +175,7 @@ Employee-Leave-Management-System
 │   ├── package-lock.json
 │   └── vite.config.js
 │
-├── scratch
+├── <img src="https://skillicons.dev/icons?i=js" width="18" alt="JavaScript"> scratch
 │   ├── run_migration.js
 │   ├── test_flow.js
 │   └── test_security.js
@@ -185,8 +185,7 @@ Employee-Leave-Management-System
 ├── README.md
 ├── package.json
 └── package-lock.json
-```
-
+</pre>
 ---
 
 ##  Deployment
