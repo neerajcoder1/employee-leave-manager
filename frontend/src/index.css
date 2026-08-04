@@ -1629,3 +1629,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%232ECC71" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
 }
 
+
+ 
+ / *   D e l e t e   L e a v e   R o w   A n i m a t i o n   * / 
+ . d e l e t i n g - r o w   { 
+     a n i m a t i o n :   s l i d e O u t R i g h t   0 . 4 s   e a s e   f o r w a r d s ; 
+     o p a c i t y :   0 . 5 ; 
+     p o i n t e r - e v e n t s :   n o n e ; 
+ } 
+ 
+ @ k e y f r a m e s   s l i d e O u t R i g h t   { 
+     0 %   {   t r a n s f o r m :   t r a n s l a t e X ( 0 ) ;   o p a c i t y :   1 ;   } 
+     1 0 0 %   {   t r a n s f o r m :   t r a n s l a t e X ( 1 0 0 p x ) ;   o p a c i t y :   0 ;   } 
+ }  
+ 

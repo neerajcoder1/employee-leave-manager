@@ -70,6 +70,32 @@ const managerController = {
     } catch (error) {
       next(error);
     }
+  },
+
+  /**
+   * Delete a leave request entirely from history
+   */
+  async deleteLeave(req, res, next) {
+    try {
+      const leaveId = req.params.id;
+      const deletedLeave = await Leave.delete(leaveId);
+
+      if (!deletedLeave) {
+        return res.status(404).json({
+          success: false,
+          message: 'Leave request not found'
+        });
+      }
+
+      logger.info(`Leave request deleted: ID "${leaveId}"`, { managerId: req.user.id, ip: req.ip });
+
+      return res.status(200).json({
+        success: true,
+        message: 'Leave request deleted successfully'
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 };
 

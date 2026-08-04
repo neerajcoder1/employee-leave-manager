@@ -139,6 +139,7 @@ const ManagerDashboard = () => {
   const [decisionType, setDecisionType] = useState(""); // 'Approved' or 'Rejected'
   const [remarks, setRemarks] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [deletingLeaveId, setDeletingLeaveId] = useState(null);
   const [modalError, setModalError] = useState("");
 
   // Document Viewer Modal State
@@ -322,6 +323,44 @@ const ManagerDashboard = () => {
       setModalError(err.message);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  // Delete Leave Request
+  const handleDeleteLeave = async (id) => {
+    if (!window.confirm("Are you sure you want to permanently delete this leave request? This action cannot be undone.")) {
+      return;
+    }
+
+    setDeletingLeaveId(id);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/manager/leaves/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Failed to delete leave request.");
+      }
+
+      // Animate out by setting a brief timeout before removing from state
+      setTimeout(() => {
+        setLeaves((prev) => prev.filter((l) => l.id !== id));
+        setDeletingLeaveId(null);
+        addToast("success", "Deleted", "Leave request has been permanently deleted.");
+      }, 400); // 400ms for CSS fade-out animation
+
+    } catch (err) {
+      setDeletingLeaveId(null);
+      addToast("error", "Deletion Failed", err.message);
     }
   };
 
@@ -908,7 +947,7 @@ const ManagerDashboard = () => {
                             (1000 * 60 * 60 * 24),
                         ) + 1;
                       return (
-                        <tr key={leave.id}>
+                        <tr key={leave.id} className={deletingLeaveId === leave.id ? 'deleting-row' : ''}>
                           <td>
                             <div
                               style={{
@@ -992,52 +1031,105 @@ const ManagerDashboard = () => {
                             </span>
                           </td>
                           <td>
-                            {leave.status === "Pending" ? (
-                              <div style={{ display: "flex", gap: "0.4rem" }}>
-                                <button
-                                  className="btn btn-secondary btn-sm"
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+                              {leave.status === "Pending" ? (
+                                <div style={{ display: "flex", gap: "0.4rem" }}>
+                                  <button
+                                    className="btn btn-secondary btn-sm"
+                                    style={{
+                                      padding: "0.35rem 0.75rem",
+                                      borderColor: "var(--success-border)",
+                                      color: "var(--success-color)",
+                                    }}
+                                    onClick={() =>
+                                      openDecisionModal(leave, "Approved")
+                                    }
+                                  >
+                                    Approve
+                                  </button>
+                                  <button
+                                    className="btn btn-secondary btn-sm"
+                                    style={{
+                                      padding: "0.35rem 0.75rem",
+                                      borderColor: "var(--danger-border)",
+                                      color: "var(--danger-color)",
+                                    }}
+                                    onClick={() =>
+                                      openDecisionModal(leave, "Rejected")
+                                    }
+                                  >
+                                    Reject
+                                  </button>
+                                </div>
+                              ) : (
+                                <span
                                   style={{
-                                    padding: "0.35rem 0.75rem",
-                                    borderColor: "var(--success-border)",
-                                    color: "var(--success-color)",
+                                    color: "var(--text-secondary)",
+                                    fontSize: "0.85rem",
+                                    fontStyle: "italic",
+                                    maxWidth: "140px",
+                                    display: "block",
+                                    textOverflow: "ellipsis",
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
                                   }}
-                                  onClick={() =>
-                                    openDecisionModal(leave, "Approved")
-                                  }
+                                  title={leave.manager_remarks}
                                 >
-                                  Approve
-                                </button>
-                                <button
-                                  className="btn btn-secondary btn-sm"
-                                  style={{
-                                    padding: "0.35rem 0.75rem",
-                                    borderColor: "var(--danger-border)",
-                                    color: "var(--danger-color)",
-                                  }}
-                                  onClick={() =>
-                                    openDecisionModal(leave, "Rejected")
-                                  }
-                                >
-                                  Reject
-                                </button>
-                              </div>
-                            ) : (
-                              <span
+                                  {leave.manager_remarks || "No remarks."}
+                                </span>
+                              )}
+
+                              {/* Animated Delete Button */}
+                              <button
+                                onClick={() => handleDeleteLeave(leave.id)}
+                                disabled={deletingLeaveId === leave.id}
                                 style={{
-                                  color: "var(--text-secondary)",
-                                  fontSize: "0.85rem",
-                                  fontStyle: "italic",
-                                  maxWidth: "140px",
-                                  display: "block",
-                                  textOverflow: "ellipsis",
-                                  overflow: "hidden",
-                                  whiteSpace: "nowrap",
+                                  background: "none",
+                                  border: "none",
+                                  cursor: deletingLeaveId === leave.id ? "wait" : "pointer",
+                                  color: "var(--danger-color)",
+                                  opacity: deletingLeaveId === leave.id ? 0.5 : 0.8,
+                                  transition: "all 0.2s ease",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  padding: "0.25rem",
                                 }}
-                                title={leave.manager_remarks}
+                                onMouseEnter={(e) => {
+                                  if (deletingLeaveId !== leave.id) {
+                                    e.currentTarget.style.opacity = "1";
+                                    e.currentTarget.style.transform = "scale(1.1)";
+                                  }
+                                }}
+                                onMouseLeave={(e) => {
+                                  if (deletingLeaveId !== leave.id) {
+                                    e.currentTarget.style.opacity = "0.8";
+                                    e.currentTarget.style.transform = "scale(1)";
+                                  }
+                                }}
+                                title="Delete Record"
                               >
-                                {leave.manager_remarks || "No remarks."}
-                              </span>
-                            )}
+                                {deletingLeaveId === leave.id ? (
+                                  <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" className="spinning-icon" style={{ animation: "spin 1s linear infinite" }}>
+                                    <line x1="12" y1="2" x2="12" y2="6"></line>
+                                    <line x1="12" y1="18" x2="12" y2="22"></line>
+                                    <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                    <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                    <line x1="2" y1="12" x2="6" y2="12"></line>
+                                    <line x1="18" y1="12" x2="22" y2="12"></line>
+                                    <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                    <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                  </svg>
+                                ) : (
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                  </svg>
+                                )}
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       );

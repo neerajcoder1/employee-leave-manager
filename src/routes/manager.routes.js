@@ -161,4 +161,29 @@ router.get('/leaves', managerController.getAllLeaves);
  */
 router.patch('/leaves/:id', leaveValidator.updateStatus, validateInput, managerController.updateLeaveStatus);
 
+/**
+ * @swagger
+ * /api/manager/leaves/{id}:
+ *   delete:
+ *     summary: Delete a leave request from history
+ *     description: Permanently removes a leave request.
+ *     tags: [Manager Portal]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Leave request ID
+ *     responses:
+ *       200:
+ *         description: Leave request deleted successfully
+ *       404:
+ *         description: Leave request not found
+ */
+router.delete('/leaves/:id', managerController.deleteLeave);
+
 module.exports = router;

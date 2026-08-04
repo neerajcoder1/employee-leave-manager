@@ -223,6 +223,15 @@ const Leave = {
     } finally {
       client.release();
     }
+  },
+
+  /**
+   * Delete a leave request by ID
+   */
+  async delete(id) {
+    const queryText = 'DELETE FROM leave_requests WHERE id = $1 RETURNING id';
+    const { rows } = await db.query(queryText, [id]);
+    return rows[0];
   }
 };
 
