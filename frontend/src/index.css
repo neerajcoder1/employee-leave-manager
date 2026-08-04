@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    CSS DESIGN SYSTEM - SAAS BRAND STYLING (Linear / Vercel style)
    ========================================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
@@ -1630,16 +1630,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
- 
- / *   D e l e t e   L e a v e   R o w   A n i m a t i o n   * / 
- . d e l e t i n g - r o w   { 
-     a n i m a t i o n :   s l i d e O u t R i g h t   0 . 4 s   e a s e   f o r w a r d s ; 
-     o p a c i t y :   0 . 5 ; 
-     p o i n t e r - e v e n t s :   n o n e ; 
- } 
- 
- @ k e y f r a m e s   s l i d e O u t R i g h t   { 
-     0 %   {   t r a n s f o r m :   t r a n s l a t e X ( 0 ) ;   o p a c i t y :   1 ;   } 
-     1 0 0 %   {   t r a n s f o r m :   t r a n s l a t e X ( 1 0 0 p x ) ;   o p a c i t y :   0 ;   } 
- }  
- 
+/* Delete Leave Row Animation */
+.deleting-row {
+  animation: slideOutRight 0.4s ease forwards;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@keyframes slideOutRight {
+  0% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(100px); opacity: 0; }
+}
