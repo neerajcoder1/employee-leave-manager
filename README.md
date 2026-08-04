@@ -1,7 +1,8 @@
 
   # Employee Leave Management System
 <p align="center">
-<img width="3568" height="764" alt="zollid-without-tagline@2x-8" src="https://github.com/user-attachments/assets/4e45d9ae-d85a-4f2a-8018-2c46199c2dd7" />
+ <img width="70%"alt="zollid-without-tagline@2x-8" src="https://github.com/user-attachments/assets/4e0bcd96-6049-4927-b8db-c38ea99208a7" />
+
 </p>
 > A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
 
