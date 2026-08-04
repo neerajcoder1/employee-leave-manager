@@ -229,9 +229,9 @@ const EmployeeDashboard = () => {
     const finalReason =
       reasonCategory === "Other" ? reason.trim() : reasonCategory;
 
-    if (!startDate || !endDate || !finalReason || !file) {
+    if (!startDate || !endDate || !finalReason || (leaveType === "Sick" && !file)) {
       setFormError(
-        "Please fill in all required fields and upload a supporting document.",
+        "Please fill in all required fields. A supporting document is required for Sick Leave.",
       );
       return;
     }
@@ -1247,7 +1247,9 @@ const EmployeeDashboard = () => {
               <div className="form-group" style={{ marginBottom: "1.75rem" }}>
                 <label className="form-label" style={{ display: "block" }}>
                   Supporting Document{" "}
-                  <span style={{ color: "var(--danger-color)" }}>*</span>
+                  {leaveType === "Sick" && (
+                    <span style={{ color: "var(--danger-color)" }}>*</span>
+                  )}
                 </label>
                 <div
                   className={`file-upload-zone ${isDragOver ? "dragover" : ""}`}

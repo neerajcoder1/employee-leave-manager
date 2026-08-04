@@ -49,8 +49,8 @@ const employeeController = {
     try {
       const { leaveType, startDate, endDate, reason } = req.body;
       const employeeId = req.user.id;
-      if (!req.file) {
-        return res.status(400).json({ success: false, message: 'Supporting document is strictly required.' });
+      if (leaveType === 'Sick' && !req.file) {
+        return res.status(400).json({ success: false, message: 'Supporting document is strictly required for Sick Leave.' });
       }
 
       // Create the leave request, passing the file object to be saved in DB
