@@ -140,6 +140,7 @@ const ManagerDashboard = () => {
   const [remarks, setRemarks] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [deletingLeaveId, setDeletingLeaveId] = useState(null);
+  const [leaveToDelete, setLeaveToDelete] = useState(null);
   const [modalError, setModalError] = useState("");
 
   // Document Viewer Modal State
@@ -327,12 +328,12 @@ const ManagerDashboard = () => {
   };
 
   // Delete Leave Request
-  const handleDeleteLeave = async (id) => {
-    if (!window.confirm("Are you sure you want to permanently delete this leave request? This action cannot be undone.")) {
-      return;
-    }
-
-    setDeletingLeaveId(id);
+  const confirmDeleteLeave = async () => {
+    if (!leaveToDelete) return;
+    
+    setModalError("");
+    setSubmitting(true);
+    const id = leaveToDelete.id;
 
     try {
       const response = await fetch(
@@ -351,6 +352,9 @@ const ManagerDashboard = () => {
         throw new Error(result.message || "Failed to delete leave request.");
       }
 
+      setLeaveToDelete(null);
+      setDeletingLeaveId(id);
+
       // Animate out by setting a brief timeout before removing from state
       setTimeout(() => {
         setLeaves((prev) => prev.filter((l) => l.id !== id));
@@ -359,8 +363,9 @@ const ManagerDashboard = () => {
       }, 400); // 400ms for CSS fade-out animation
 
     } catch (err) {
-      setDeletingLeaveId(null);
-      addToast("error", "Deletion Failed", err.message);
+      setModalError(err.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -1081,7 +1086,7 @@ const ManagerDashboard = () => {
 
                               {/* Animated Delete Button */}
                               <button
-                                onClick={() => handleDeleteLeave(leave.id)}
+                                onClick={() => setLeaveToDelete(leave)}
                                 disabled={deletingLeaveId === leave.id}
                                 style={{
                                   background: "none",
@@ -1404,6 +1409,47 @@ const ManagerDashboard = () => {
             </>
           )}
         </section>
+      )}
+
+      {/* Delete Leave Confirmation Modal */}
+      {leaveToDelete && (
+        <div className="modal-overlay" onClick={() => setLeaveToDelete(null)}>
+          <div
+            className="modal-content"
+            style={{ maxWidth: "400px", textAlign: "center", padding: "2rem 1.5rem" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ marginBottom: "1rem", color: "var(--danger-color)" }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <h2 style={{ marginBottom: "0.5rem", fontSize: "1.25rem" }}>Delete Leave Request?</h2>
+            <p style={{ color: "var(--text-secondary)", marginBottom: "1.5rem", fontSize: "0.9rem", lineHeight: "1.5" }}>
+              Are you sure you want to permanently delete <strong>{leaveToDelete.username}</strong>'s {leaveToDelete.leave_type} request? This action cannot be undone.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setLeaveToDelete(null)}
+                disabled={submitting}
+                style={{ flex: 1 }}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={confirmDeleteLeave}
+                disabled={submitting}
+                style={{ flex: 1, backgroundColor: "var(--danger-color)", borderColor: "var(--danger-border)" }}
+              >
+                {submitting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Confirmation & Remarks Modal Overlay */}
