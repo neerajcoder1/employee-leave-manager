@@ -52,19 +52,19 @@
 ## 🏗️ System Architecture
 
 ```mermaid
-graph TD
+flowchart TD
 
-User["👤 Employee / Admin"]
+    User["👤 Employee / Admin"]
 
-User --> FE["Frontend (React)<br/>Vercel"]
+    User --> FE["Frontend (React)<br/>Vercel"]
 
-FE --> API["REST API<br/>Node.js + Express<br/>Render"]
+    FE --> API["REST API<br/>Node.js + Express<br/>Render"]
 
-API --> AUTH["JWT Authentication"]
+    API --> JWT["JWT Authentication"]
 
-AUTH --> DB["Supabase PostgreSQL"]
+    JWT --> DB["Supabase<br/>PostgreSQL"]
 
-API --> FILES["File Uploads"]
+    DB --> STORAGE["Supabase Storage<br/>File Uploads"]
 
 ```
 
