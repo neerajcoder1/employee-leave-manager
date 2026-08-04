@@ -1,7 +1,7 @@
 
   # Employee Leave Management System
 <p align="center">
-<img width="auto" height="350" alt="images (1)" src="https://github.com/user-attachments/assets/0c6876cd-733c-4412-b517-fab2bf52e293" />
+<img width="3568" height="764" alt="zollid-without-tagline@2x-8" src="https://github.com/user-attachments/assets/4e45d9ae-d85a-4f2a-8018-2c46199c2dd7" />
 </p>
 > A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
 
@@ -22,16 +22,16 @@
 
 ## ✨ Features
 
-- 🔐 JWT Authentication
-- 🛡 Role-Based Access Control
-- 👥 Employee & Manager Portals
-- 📄 Leave Management
-- 📎 Secure Document Upload
-- 🔔 In-App Notifications
-- 📚 Swagger Documentation
-- 🗄 PostgreSQL Database
-- ☁️ Supabase Hosted Database
-- 🚀 Production Ready
+-  JWT Authentication
+-  Role-Based Access Control
+-  Employee & Manager Portals
+-  Leave Management
+-  Secure Document Upload
+-  In-App Notifications
+-  Swagger Documentation
+-  PostgreSQL Database
+-  Supabase Hosted Database
+-  Production Ready
 
 ---
 
@@ -112,7 +112,7 @@ Supabase PostgreSQL
 
 ---
 
-## 🔒 Security
+##  Security
 
 Designed following OWASP Top 10:2025 security best practices.
 
@@ -129,13 +129,13 @@ Designed following OWASP Top 10:2025 security best practices.
 
 ---
 
-## 📁 Folder Structure
+##  Folder Structure
 
 <img width="299" height="293" alt="image" src="https://github.com/user-attachments/assets/44469d85-d40a-4af4-96ea-ea46969eef94" />
 
 ---
 
-## 🚀 Deployment
+##  Deployment
 
 Frontend : Vercel
 
@@ -145,7 +145,7 @@ Database : Supabase PostgreSQL
 
 ---
 
-## 📈 Future Improvements
+##  Future Improvements
 
 - Email Notifications
 - Redis Caching
@@ -154,7 +154,7 @@ Database : Supabase PostgreSQL
 - Pagination
 - Admin Analytics
 
-## 🎮 How to Use Application
+##  How to Use Application
 
 To test and review the application, you can log in using the pre-configured accounts.
 
@@ -177,7 +177,7 @@ All employee accounts share the following password:
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 Neeraj Gahlout
 
@@ -187,4 +187,4 @@ LinkedIn: https://www.linkedin.com/in/neeraj-gahlout-b39993308
 
 ---
 
-⭐ If you like this project, give it a star.
+ If you like this project, give it a star.
