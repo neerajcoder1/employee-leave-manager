@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    CSS DESIGN SYSTEM - SAAS BRAND STYLING (Linear / Vercel style)
    ========================================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
@@ -651,8 +651,7 @@ body {
 
 /* Navbar Logo styling */
 .navbar .logo img {
-  border-radius: 50%;
-  transition: box-shadow 0.3s ease;
+  transition: filter 0.3s ease;
 }
 
 .navbar-logo-text {
@@ -675,7 +674,7 @@ body {
 }
 
 .navbar .logo img:hover {
-  box-shadow: 0 0 20px var(--accent-color);
+  filter: drop-shadow(0 0 8px var(--accent-color));
 }
 
 /* Navbar profile hover */
