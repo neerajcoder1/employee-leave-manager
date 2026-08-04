@@ -49,12 +49,12 @@
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```mermaid
 flowchart TD
 
-    User["👤 Employee / Admin"]
+    User[" Employee / Admin"]
 
     User --> FE["Frontend (React)<br/>Vercel"]
 
