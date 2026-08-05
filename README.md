@@ -53,22 +53,10 @@
 
 ## System Architecture
 
-```mermaid
-flowchart TD
-    A[Employee / Admin]
-    B[Frontend<br>React + Vercel]
-    C[Backend API<br>Node.js + Express<br>Render]
-    D[JWT Authentication]
-    E[Supabase PostgreSQL]
-    F[Supabase Storage]
+<p align="center">
+ <img width="Auto" height="900" alt="Employee Admin-2026-08-05-023512" src="https://github.com/user-attachments/assets/9e49d2ed-16c5-4885-9abd-ba91ac7a4ba5" />
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-```
-
+</p>
 
 ##  Tech Stack
 
