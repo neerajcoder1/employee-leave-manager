@@ -4,7 +4,7 @@
  <img width="70%"alt="zollid-without-tagline@2x-8" src="https://github.com/user-attachments/assets/4e0bcd96-6049-4927-b8db-c38ea99208a7" />
 
 </p>
-> A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
+A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
 
 <p align="center">
   <a href="https://employee-leave-manager-one.vercel.app">🚀 Live Demo</a> •
