@@ -60,10 +60,10 @@ const authController = {
       const user = await User.findByUsername(username);
       if (!user) {
         logger.warn(`Failed login attempt: Username "${username}" not found`, { ip: req.ip });
-        return res.status(401).json({
+        return res.status(404).json({
           success: false,
-          message: 'Invalid username or password',
-          errors: ['Unauthorized']
+          message: 'User not found. Please create an account first.',
+          errors: ['UserNotFound']
         });
       }
 
@@ -73,7 +73,7 @@ const authController = {
         logger.warn(`Failed login attempt: Incorrect password for Username "${username}"`, { userId: user.id, ip: req.ip });
         return res.status(401).json({
           success: false,
-          message: 'Invalid username or password',
+          message: 'Incorrect password. Please try again.',
           errors: ['Unauthorized']
         });
       }
