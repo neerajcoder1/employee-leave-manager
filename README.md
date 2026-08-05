@@ -51,23 +51,22 @@
 
 ---
 
-##  System Architecture
+## System Architecture
 
 ```mermaid
 flowchart TD
+    A[Employee / Admin]
+    B[Frontend<br>React + Vercel]
+    C[Backend API<br>Node.js + Express<br>Render]
+    D[JWT Authentication]
+    E[Supabase PostgreSQL]
+    F[Supabase Storage]
 
-    User[" Employee / Admin"]
-
-    User --> FE["Frontend (React)<br/>Vercel"]
-
-    FE --> API["REST API<br/>Node.js + Express<br/>Render"]
-
-    API --> JWT["JWT Authentication"]
-
-    JWT --> DB["Supabase<br/>PostgreSQL"]
-
-    DB --> STORAGE["Supabase Storage<br/>File Uploads"]
-
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
 ```
 
 
