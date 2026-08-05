@@ -4,7 +4,7 @@
  <img width="70%"alt="zollid-without-tagline@2x-8" src="https://github.com/user-attachments/assets/4e0bcd96-6049-4927-b8db-c38ea99208a7" />
 
 </p>
-> A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
+A production-ready Employee Leave Management System built with React, Node.js, Express.js, PostgreSQL (Supabase), JWT Authentication, and Swagger API Documentation.
 
 <p align="center">
   <a href="https://employee-leave-manager-one.vercel.app">🚀 Live Demo</a> •
@@ -51,25 +51,12 @@
 
 ---
 
-##  System Architecture
+## System Architecture
 
-```mermaid
-flowchart TD
+<p align="center">
+ <img width="Auto" height="900" alt="Employee Admin-2026-08-05-023512" src="https://github.com/user-attachments/assets/9e49d2ed-16c5-4885-9abd-ba91ac7a4ba5" />
 
-    User[" Employee / Admin"]
-
-    User --> FE["Frontend (React)<br/>Vercel"]
-
-    FE --> API["REST API<br/>Node.js + Express<br/>Render"]
-
-    API --> JWT["JWT Authentication"]
-
-    JWT --> DB["Supabase<br/>PostgreSQL"]
-
-    DB --> STORAGE["Supabase Storage<br/>File Uploads"]
-
-```
-
+</p>
 
 ##  Tech Stack
 
