@@ -502,6 +502,15 @@ const EmployeeDashboard = () => {
   const sickAvailable = profile?.balances?.sick ?? 0;
   const sickUsed = Math.max(10 - sickAvailable, 0);
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
+
+  const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+
   return (
     <div className="dashboard-container">
       {/* Toast Mount */}
@@ -735,371 +744,326 @@ const EmployeeDashboard = () => {
         </div>
       </header>
 
-      {/* Employee Welcome & Control Panel */}
-      <section
-        className="card-panel blur-reveal"
-        style={{
-          padding: "2.5rem 2rem",
-          textAlign: "center",
-          marginBottom: "1.5rem",
-          background: "var(--bg-card)",
-          border: "1px solid var(--border-color)",
-          borderRadius: "12px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "440px",
-            margin: "1rem auto",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <h2
-            className="welcome-animation"
-            style={{
-              marginBottom: "-0.5rem",
-              fontSize: "1.2rem",
-              fontWeight: "400",
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-            }}
-          >
-            Welcome Back,
-          </h2>
-          <TextHoverEffect
-            text={(profile?.username || "EMPLOYEE").toUpperCase()}
-            strokeWidth={0.5}
-            opacity={0.75}
-          />
+      {/* Hero Section */}
+      <section className="hero-card blur-reveal" style={{ marginBottom: "0.5rem" }}>
+        <div className="hero-content">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '1.25rem' }}>👋</span>
+            <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', fontWeight: '500' }}>{getGreeting()}</span>
+          </div>
+          <h1 style={{ fontSize: '2.25rem', fontWeight: '700', letterSpacing: '-0.03em', lineHeight: '1.1', marginBottom: '0.75rem' }}>
+            Welcome back, <br/>
+            <span style={{ color: 'var(--accent-color)' }}>{profile?.username || "Employee"}</span>
+          </h1>
+          <p className="hero-subtitle">
+            Track your leave balance, submit leave requests, and monitor approval status.
+          </p>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "1rem",
-            flexWrap: "wrap",
-          }}
-        >
-          <button
-            className="btn btn-primary"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Apply Leave
-          </button>
-          <button
-            className={`btn ${showHistory ? "btn-secondary" : "btn-primary"}`}
-            onClick={() => setShowHistory(!showHistory)}
-            style={{ gap: "0.5rem", display: "inline-flex", alignItems: "center", justifyContent: "center" }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            {showHistory ? "Hide Leave History" : "View Leave History"}
-          </button>
+        <div className="hero-stats">
+          <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '0.5rem' }}>
+            Today's Summary
+          </div>
+          <div className="hero-stat-row">
+            <span style={{ color: 'var(--text-secondary)' }}>Annual Leave Remaining</span>
+            <span style={{ fontWeight: '600' }}>{annualAvailable} Days</span>
+          </div>
+          <div className="hero-stat-row">
+            <span style={{ color: 'var(--text-secondary)' }}>Sick Leave Remaining</span>
+            <span style={{ fontWeight: '600' }}>{sickAvailable} Days</span>
+          </div>
+          <div className="hero-stat-row">
+            <span style={{ color: 'var(--text-secondary)' }}>Pending Requests</span>
+            <span style={{ fontWeight: '600', color: 'var(--warning-color)' }}>
+              {leaves.filter(l => l.status === 'Pending').length}
+            </span>
+          </div>
+          <div style={{ margin: '0.5rem 0', borderBottom: '1px solid var(--border-color)' }}></div>
+          <div className="hero-stat-row">
+            <span style={{ color: 'var(--text-secondary)' }}>Current Date</span>
+            <span style={{ fontWeight: '500', fontSize: '0.8rem' }}>{todayStr}</span>
+          </div>
+          <div className="hero-stat-row">
+            <span style={{ color: 'var(--text-secondary)' }}>System Status</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: 'var(--success-color)', fontWeight: '500' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--success-color)', display: 'inline-block' }}></span>
+              Online
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* Leave Balances Grid (Polished) */}
-      <section className="grid-balances">
-        <LeaveBalanceCard
-          type="Annual"
-          availableDays={annualAvailable}
-          totalDays={15}
-          usedDays={annualUsed}
-        />
-        <LeaveBalanceCard
-          type="Sick"
-          availableDays={sickAvailable}
-          totalDays={10}
-          usedDays={sickUsed}
-        />
-      </section>
-      {showHistory && (
-        <section className="card-panel" style={{ padding: "2rem" }}>
-          <div
-            className="section-title-wrapper"
-            style={{ marginBottom: "2rem" }}
-          >
-            <h2 className="section-title">My Leave History</h2>
-            <button
-              className="btn btn-primary"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Apply Leave
-            </button>
+      {/* Main Grid Layout */}
+      <div className="dashboard-layout-bento">
+        {/* LEFT COLUMN */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          
+          {/* Quick Actions Row */}
+          <div className="quick-actions-row">
+            <div className="quick-action-btn" onClick={() => setIsModalOpen(true)}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+                <line x1="12" y1="14" x2="12" y2="18"></line>
+                <line x1="10" y1="16" x2="14" y2="16"></line>
+              </svg>
+              <span style={{ fontSize: '0.85rem', fontWeight: '500' }}>Apply Leave</span>
+            </div>
+            <div className="quick-action-btn" onClick={() => { setShowHistory(true); window.scrollTo({ top: 800, behavior: 'smooth' }); }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span style={{ fontSize: '0.85rem', fontWeight: '500' }}>Leave History</span>
+            </div>
+            <div className="quick-action-btn" onClick={() => setIsProfileModalOpen(true)}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span style={{ fontSize: '0.85rem', fontWeight: '500' }}>My Profile</span>
+            </div>
           </div>
 
-          {/* Filters, search and sort row */}
-          <div className="table-filters-row">
-            <div className="filters-group">
-              {["All", "Pending", "Approved", "Rejected"].map((status) => (
-                <button
-                  key={status}
-                  className={`btn-filter-tab ${statusFilter === status ? "active" : ""}`}
-                  onClick={() => {
-                    setStatusFilter(status);
-                    setCurrentPage(1);
-                  }}
-                >
-                  {status}
-                </button>
-              ))}
-            </div>
-
-            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-              <div className="search-input-wrapper">
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search by leave type..."
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                />
+          {/* Leave Balances Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            <div className="bento-card leave-balance-card-v2 annual">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 8v4"></path>
+                    <path d="M12 16h.01"></path>
+                  </svg>
+                  <span style={{ fontSize: '0.95rem', fontWeight: '600' }}>Annual Leave</span>
+                </div>
               </div>
+              <div style={{ fontSize: '2rem', fontWeight: '700', margin: '0.5rem 0' }}>
+                {annualAvailable} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: '500' }}>Days Left</span>
+              </div>
+              <div className="progress-bar-container">
+                <div className="progress-bar-fill annual" style={{ width: `${(annualAvailable / 15) * 100}%` }}></div>
+              </div>
+              <div className="progress-meta">
+                <span>{annualUsed} Days Used</span>
+                <span>{Math.round((annualAvailable / 15) * 100)}% Remaining</span>
+              </div>
+            </div>
 
-              <select
-                className="form-control"
-                style={{ width: "auto", minWidth: "140px" }}
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="duration">Longest Duration</option>
-                <option value="type">Leave Type</option>
-              </select>
+            <div className="bento-card leave-balance-card-v2 sick">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warning-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                  </svg>
+                  <span style={{ fontSize: '0.95rem', fontWeight: '600' }}>Sick Leave</span>
+                </div>
+              </div>
+              <div style={{ fontSize: '2rem', fontWeight: '700', margin: '0.5rem 0' }}>
+                {sickAvailable} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: '500' }}>Days Left</span>
+              </div>
+              <div className="progress-bar-container">
+                <div className="progress-bar-fill sick" style={{ width: `${(sickAvailable / 10) * 100}%` }}></div>
+              </div>
+              <div className="progress-meta">
+                <span>{sickUsed} Days Used</span>
+                <span>{Math.round((sickAvailable / 10) * 100)}% Remaining</span>
+              </div>
             </div>
           </div>
 
-          {filteredLeaves.length === 0 ? (
-            /* High-Fidelity Empty State */
-            <div
-              className="empty-state"
-              style={{
-                border: "1px dashed var(--border-color)",
-                borderRadius: "8px",
-                margin: "1rem 0",
-              }}
-            >
-              <div
-                className="empty-state-icon"
-                style={{
-                  fontSize: "2.5rem",
-                  marginBottom: "0.75rem",
-                  color: "var(--text-muted)",
-                }}
-              >
-                <svg
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+          {/* Leave History Table (Always visible but polished) */}
+          <div className="bento-card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 className="bento-card-title" style={{ margin: 0 }}>Leave History</h2>
+              <div className="filters-group">
+                {["All", "Pending", "Approved", "Rejected"].map((status) => (
+                  <button
+                    key={status}
+                    className={`btn-filter-tab ${statusFilter === status ? "active" : ""}`}
+                    onClick={() => {
+                      setStatusFilter(status);
+                      setCurrentPage(1);
+                    }}
+                    style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}
+                  >
+                    {status}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {filteredLeaves.length === 0 ? (
+              <div style={{ padding: '3rem 2rem', textAlign: 'center' }}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--border-color)', marginBottom: '1rem' }}>
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                   <line x1="16" y1="2" x2="16" y2="6"></line>
                   <line x1="8" y1="2" x2="8" y2="6"></line>
                   <line x1="3" y1="10" x2="21" y2="10"></line>
-                  <line x1="8" y1="14" x2="16" y2="14"></line>
-                  <line x1="8" y1="18" x2="12" y2="18"></line>
                 </svg>
+                <div style={{ fontWeight: '500', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>No leave requests found</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>You're all caught up. No history to show.</div>
               </div>
-              <h3
-                style={{
-                  fontSize: "1.05rem",
-                  fontWeight: "600",
-                  marginBottom: "0.25rem",
-                  color: "var(--text-primary)",
-                }}
-              >
-                No leave requests found
-              </h3>
-              <p
-                style={{
-                  fontSize: "0.85rem",
-                  color: "var(--text-secondary)",
-                  marginBottom: "1.25rem",
-                  maxWidth: "380px",
-                  margin: "0.25rem auto 1.25rem auto",
-                }}
-              >
-                Your filters might be too specific or you haven't applied for
-                any leaves yet. Click below to submit a new application.
-              </p>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Apply Leave
-              </button>
-            </div>
-          ) : (
-            <>
+            ) : (
               <div className="table-responsive">
-                <table className="custom-table">
-                  <thead>
+                <table className="custom-table" style={{ fontSize: '0.85rem' }}>
+                  <thead className="sticky-header">
                     <tr>
                       <th>Type</th>
                       <th>Dates</th>
-                      <th>Duration</th>
-                      <th>Reason</th>
-                      <th>Document</th>
                       <th>Status</th>
-                      <th>Remarks</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {currentRows.map((leave) => {
-                      const duration =
-                        Math.round(
-                          (new Date(leave.end_date) -
-                            new Date(leave.start_date)) /
-                            (1000 * 60 * 60 * 24),
-                        ) + 1;
-                      return (
-                        <tr key={leave.id}>
-                          <td style={{ fontWeight: "600" }}>
-                            {leave.leave_type}
-                          </td>
-                          <td>
-                            {new Date(leave.start_date).toLocaleDateString(
-                              "en-IN",
-                            )}{" "}
-                            –{" "}
-                            {new Date(leave.end_date).toLocaleDateString(
-                              "en-IN",
-                            )}
-                          </td>
-                          <td>
-                            {duration} {duration === 1 ? "day" : "days"}
-                          </td>
-                          <td
-                            style={{
-                              maxWidth: "240px",
-                              textOverflow: "ellipsis",
-                              overflow: "hidden",
-                              whiteSpace: "nowrap",
-                            }}
-                            title={leave.reason}
-                          >
-                            {leave.reason}
-                          </td>
-                          <td>
-                            {leave.document_path ? (
-                              <button
-                                type="button"
-                                className="auth-link"
-                                style={{
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  gap: "4px",
-                                  fontSize: "0.85rem",
-                                }}
-                                onClick={() =>
-                                  setPreviewDocument(leave.document_path)
-                                }
-                              >
-                                📎 Preview
-                              </button>
-                            ) : (
-                              <span
-                                style={{
-                                  color: "var(--text-muted)",
-                                  fontSize: "0.85rem",
-                                }}
-                              >
-                                None
-                              </span>
-                            )}
-                          </td>
-                          <td>
-                            <span
-                              className={`badge badge-${leave.status.toLowerCase()}`}
+                    {currentRows.map((leave) => (
+                      <tr key={leave.id}>
+                        <td style={{ fontWeight: "500" }}>{leave.leave_type}</td>
+                        <td style={{ color: 'var(--text-secondary)' }}>
+                          {new Date(leave.start_date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' })} – {new Date(leave.end_date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' })}
+                        </td>
+                        <td>
+                          <span className={`badge badge-${leave.status.toLowerCase()}`}>
+                            {leave.status}
+                          </span>
+                        </td>
+                        <td>
+                          {leave.document_path && (
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-sm"
+                              style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}
+                              onClick={() => setPreviewDocument(leave.document_path)}
                             >
-                              {leave.status}
-                            </span>
-                          </td>
-                          <td
-                            style={{
-                              color: leave.manager_remarks
-                                ? "var(--text-primary)"
-                                : "var(--text-muted)",
-                              fontSize: "0.85rem",
-                              maxWidth: "180px",
-                              textOverflow: "ellipsis",
-                              overflow: "hidden",
-                              whiteSpace: "nowrap",
-                            }}
-                            title={leave.manager_remarks}
-                          >
-                            {leave.manager_remarks || "—"}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                              Preview Doc
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-
-              {/* Pagination Controls Footer */}
-              <div className="pagination-controls">
-                <span>
-                  Showing{" "}
-                  <strong>
-                    {indexOfFirstRow + 1}-
-                    {Math.min(indexOfLastRow, filteredLeaves.length)}
-                  </strong>{" "}
-                  of <strong>{filteredLeaves.length}</strong>
-                </span>
-                <div style={{ display: "flex", gap: "0.4rem" }}>
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </button>
-
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(p + 1, totalPages))
-                    }
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </button>
+            )}
+            
+            {filteredLeaves.length > 0 && (
+              <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <span>Showing {indexOfFirstRow + 1}-{Math.min(indexOfLastRow, filteredLeaves.length)} of {filteredLeaves.length}</span>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <button className="btn btn-secondary btn-sm" onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>Prev</button>
+                  <button className="btn btn-secondary btn-sm" onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Next</button>
                 </div>
               </div>
-            </>
-          )}
-        </section>
-      )}
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          
+          {/* Employee Information */}
+          <div className="bento-card">
+            <h2 className="bento-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              Employee Information
+            </h2>
+            <div className="profile-details-grid">
+              <div className="profile-detail-item">
+                <span className="profile-detail-label">Employee ID</span>
+                <span className="profile-detail-value">EMP-0{profile?.id || 'XX'}</span>
+              </div>
+              <div className="profile-detail-item">
+                <span className="profile-detail-label">Department</span>
+                <span className="profile-detail-value">{profile?.department || 'Engineering'}</span>
+              </div>
+              <div className="profile-detail-item">
+                <span className="profile-detail-label">Role</span>
+                <span className="profile-detail-value">{profile?.role || 'Software Engineer'}</span>
+              </div>
+              <div className="profile-detail-item">
+                <span className="profile-detail-label">Joining Date</span>
+                <span className="profile-detail-value">12 Jan 2024</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          <div className="bento-card">
+            <h2 className="bento-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Recent Activity
+            </h2>
+            <div className="timeline-list">
+              {leaves.length > 0 ? (
+                // Use actual leave history if available to simulate activity
+                leaves.slice(0, 3).map((leave, idx) => (
+                  <div className={`timeline-item ${leave.status === 'Approved' ? 'success' : leave.status === 'Pending' ? 'info' : 'error'}`} key={idx}>
+                    <div className="timeline-icon">
+                      {leave.status === 'Approved' ? (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      ) : leave.status === 'Pending' ? (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                      ) : (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      )}
+                    </div>
+                    <div className="timeline-content">
+                      <span className="timeline-text">
+                        {leave.leave_type} Leave {leave.status.toLowerCase()}
+                      </span>
+                      <span className="timeline-time">{new Date(leave.created_at).toLocaleDateString("en-US", { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                // Mock fallback
+                <>
+                  <div className="timeline-item success">
+                    <div className="timeline-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                    <div className="timeline-content">
+                      <span className="timeline-text">Profile setup completed</span>
+                      <span className="timeline-time">System • 2 days ago</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Upcoming Holidays */}
+          <div className="bento-card">
+            <h2 className="bento-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              Upcoming Holidays
+            </h2>
+            <div className="holiday-list">
+              <div className="holiday-item">
+                <div className="holiday-info">
+                  <span className="holiday-name">Independence Day</span>
+                  <span className="holiday-type">Public Holiday</span>
+                </div>
+                <span className="holiday-date">15 Aug</span>
+              </div>
+              <div className="holiday-item">
+                <div className="holiday-info">
+                  <span className="holiday-name">Ganesh Chaturthi</span>
+                  <span className="holiday-type">Company Holiday</span>
+                </div>
+                <span className="holiday-date">07 Sep</span>
+              </div>
+              <div className="holiday-item">
+                <div className="holiday-info">
+                  <span className="holiday-name">Diwali</span>
+                  <span className="holiday-type">Company Holiday</span>
+                </div>
+                <span className="holiday-date">31 Oct</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
 
       {/* Apply Leave Modal */}
       {isModalOpen && (
