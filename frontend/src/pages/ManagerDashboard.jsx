@@ -737,14 +737,6 @@ const ManagerDashboard = () => {
               </span>
             </div>
           </div>
-
-          <button
-            className="btn btn-secondary btn-sm"
-            onClick={logout}
-            style={{ marginLeft: "0.5rem" }}
-          >
-            Sign Out
-          </button>
         </div>
       </header>
 
@@ -1862,13 +1854,23 @@ const ManagerDashboard = () => {
                 marginTop: "1rem",
               }}
             >
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={() => setIsProfileModalOpen(false)}
-              >
-                Dismiss
-              </button>
+              <div style={{ display: "flex", gap: "1rem" }}>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setIsProfileModalOpen(false)}
+                >
+                  Dismiss
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm"
+                  onClick={logout}
+                  style={{ background: 'transparent', borderColor: 'var(--danger-color)', color: 'var(--danger-color)' }}
+                >
+                  Sign Out
+                </button>
+              </div>
             </div>
           </div>
         </div>
