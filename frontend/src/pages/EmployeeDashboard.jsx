@@ -729,19 +729,6 @@ const EmployeeDashboard = () => {
               >
                 {profile?.username}
               </span>
-              <span
-                className="badge"
-                style={{
-                  fontSize: "0.65rem",
-                  padding: "1px 4px",
-                  background: "rgba(255,255,255,0.05)",
-                  color: "var(--text-secondary)",
-                  border: "1px solid var(--border-color)",
-                  marginTop: "2px",
-                }}
-              >
-                Employee
-              </span>
             </div>
           </div>
         </div>
