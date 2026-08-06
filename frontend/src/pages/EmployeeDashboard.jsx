@@ -713,6 +713,7 @@ const EmployeeDashboard = () => {
               {getInitials(profile?.username)}
             </span>
             <div
+              className="navbar-profile-text"
               style={{
                 display: "flex",
                 flexDirection: "column",

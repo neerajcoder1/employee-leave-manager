@@ -706,6 +706,7 @@ const ManagerDashboard = () => {
               AD
             </span>
             <div
+              className="navbar-profile-text"
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -812,7 +813,7 @@ const ManagerDashboard = () => {
       </section>
 
       {/* Tab select bar */}
-      <div style={{ display: "flex", gap: "0.75rem", marginBottom: "2.5rem" }}>
+      <div className="tab-selector" style={{ display: "flex", gap: "0.75rem", marginBottom: "2.5rem" }}>
         <button
           className={`btn ${activeTab === "requests" ? "btn-primary" : "btn-secondary"}`}
           onClick={() => setActiveTab("requests")}
