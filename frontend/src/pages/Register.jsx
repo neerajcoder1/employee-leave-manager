@@ -63,7 +63,11 @@ const Register = ({ onNavigate }) => {
   };
 
   return (
-    <div className="auth-wrapper">
+    <>
+      <div className="login-brand-logo">
+        <img src="/zollid-wordmark.png" alt="Zollid" />
+      </div>
+      <div className="auth-wrapper">
       <div className="card-panel auth-card" style={{ boxShadow: 'var(--shadow-lg)' }}>
         <div className="auth-header blur-reveal" style={{ animationDelay: '200ms' }}>
           <h1 style={{ fontSize: '1.85rem', fontWeight: '700', marginBottom: '0.5rem', letterSpacing: '-0.03em' }}>Welcome</h1>
@@ -205,6 +209,7 @@ const Register = ({ onNavigate }) => {
       </div>
       <FAQ />
     </div>
+    </>
   );
 };
 
