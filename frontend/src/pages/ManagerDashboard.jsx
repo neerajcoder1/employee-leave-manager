@@ -1018,8 +1018,8 @@ const ManagerDashboard = () => {
       </div>
 
       {/* Tab Panels */}
-        /* Leave applications review panel */
-        <section className="card-panel" style={{ padding: "2rem" }}>
+      {/* Leave applications review panel */}
+      <section className="card-panel" style={{ padding: "2rem" }}>
           <h2 className="section-title" style={{ marginBottom: "1.5rem" }}>
             Review Leave Applications
           </h2>
