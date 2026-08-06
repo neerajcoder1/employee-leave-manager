@@ -40,14 +40,14 @@ A production-ready Employee Leave Management System built with React, Node.js, E
 ##  Screenshots
 
 (Login)
-<img width="959" height="433" alt="image" src="https://github.com/user-attachments/assets/d0276053-f33c-41a5-a2f4-1f3aba4377c0" />
 
 
 (Employee Dashboard)
-<img width="959" height="436" alt="image" src="https://github.com/user-attachments/assets/c75b82de-85eb-466a-8280-d84f35747a96" />
+
+
 
 (Manager Dashboard)
-<img width="959" height="437" alt="image" src="https://github.com/user-attachments/assets/3741a4fe-6e8d-4a64-85e0-04a6cb67dd95" />
+
 
 ---
 
