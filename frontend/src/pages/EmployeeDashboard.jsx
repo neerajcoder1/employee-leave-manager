@@ -971,7 +971,7 @@ const EmployeeDashboard = () => {
             <div className="profile-details-grid">
               <div className="profile-detail-item">
                 <span className="profile-detail-label">Employee ID</span>
-                <span className="profile-detail-value">EMP-0{profile?.id || 'XX'}</span>
+                <span className="profile-detail-value">EMP-{profile?.id ? String(profile.id).replace(/\D/g, '').substring(0, 3).padStart(3, '0') : '101'}</span>
               </div>
               <div className="profile-detail-item">
                 <span className="profile-detail-label">Department</span>
@@ -979,7 +979,7 @@ const EmployeeDashboard = () => {
               </div>
               <div className="profile-detail-item">
                 <span className="profile-detail-label">Role</span>
-                <span className="profile-detail-value">{profile?.role || 'Software Engineer'}</span>
+                <span className="profile-detail-value" style={{ textTransform: 'capitalize' }}>{profile?.role || 'Software Engineer'}</span>
               </div>
               <div className="profile-detail-item">
                 <span className="profile-detail-label">Joining Date</span>

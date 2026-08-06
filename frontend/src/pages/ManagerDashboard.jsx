@@ -573,12 +573,8 @@ const ManagerDashboard = () => {
       return 0;
     });
 
-  // Pagination boundaries
   const totalPages =
-    Math.ceil(
-      (activeTab === "requests" ? filteredLeaves : filteredEmployees).length /
-        rowsPerPage,
-    ) || 1;
+    Math.ceil(filteredLeaves.length / rowsPerPage) || 1;
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
