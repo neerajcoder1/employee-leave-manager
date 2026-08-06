@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import FAQ from '../components/FAQ';
 import LoginOverlay from '../components/LoginOverlay';
 import PremiumLoader from '../components/PremiumLoader';
+import DemoAccountSelector from '../components/DemoAccountSelector';
+import { Crown, User } from 'lucide-react';
 
 const Login = ({ onNavigate }) => {
   const { login } = useAuth();
@@ -13,7 +15,19 @@ const Login = ({ onNavigate }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showForgotModal, setShowForgotModal] = useState(false);
-  const [autoFilled, setAutoFilled] = useState(false);
+  const [selectedDemoAccount, setSelectedDemoAccount] = useState(null);
+  const [inputPulse, setInputPulse] = useState(false);
+
+  const handleDemoSelect = (account) => {
+    setSelectedDemoAccount(account);
+    setUsername(account.username);
+    setPassword(account.password);
+    setError('');
+    
+    // Trigger pulse animation
+    setInputPulse(false);
+    setTimeout(() => setInputPulse(true), 10);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,10 +80,13 @@ const Login = ({ onNavigate }) => {
               <label className="form-label">Username or Email</label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${inputPulse ? 'input-pulse-animation' : ''}`}
                 placeholder="manager@gcu.in or username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setSelectedDemoAccount(null);
+                }}
                 disabled={loading}
                 autoComplete="username"
                 required
@@ -92,10 +109,13 @@ const Login = ({ onNavigate }) => {
               <div style={{ position: 'relative' }}>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  className="form-control"
+                  className={`form-control ${inputPulse ? 'input-pulse-animation' : ''}`}
                   placeholder="Enter password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setSelectedDemoAccount(null);
+                  }}
                   disabled={loading}
                   autoComplete="current-password"
                   style={{ paddingRight: '2.5rem' }}
@@ -137,28 +157,16 @@ const Login = ({ onNavigate }) => {
 
             {/* Remember Me removed for strict tab-isolation security */}
 
-            <button
-              type="button"
-              className={`auto-fill-btn ${autoFilled ? 'filled' : ''}`}
-              onClick={async () => {
-                setUsername('manager@gcu.in');
-                setPassword('ZollidMngr#Leave99');
-                setAutoFilled(true);
-                
-                // Immediately attempt login
-                setLoading(true);
-                const result = await login('manager@gcu.in', 'ZollidMngr#Leave99');
-                setLoading(false);
-                
-                if (!result.success) {
-                  setError(result.message);
-                  setAutoFilled(false);
-                }
-              }}
-              disabled={loading}
-            >
-              {autoFilled || loading ? '✅ Logging in...' : '📋 Auto-Fill Manager Credentials'}
-            </button>
+            <DemoAccountSelector onSelect={handleDemoSelect} />
+
+            {selectedDemoAccount && (
+              <div className="selected-demo-status blur-reveal">
+                {selectedDemoAccount.icon === 'Crown' ? <Crown size={16} /> : <User size={16} />}
+                <span>
+                  Selected Demo Account: <strong>{selectedDemoAccount.displayName}</strong>
+                </span>
+              </div>
+            )}
 
             <button 
               type="submit" 

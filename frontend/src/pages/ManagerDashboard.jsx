@@ -123,7 +123,6 @@ popSound.preload = 'auto';
 
 const ManagerDashboard = () => {
   const { token, logout, user } = useAuth();
-  const [activeTab, setActiveTab] = useState("requests"); // 'requests' or 'employees'
   const [leaves, setLeaves] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -596,7 +595,6 @@ const ManagerDashboard = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [
-    activeTab,
     searchQuery,
     employeeSearchQuery,
     statusFilter,
@@ -820,16 +818,13 @@ const ManagerDashboard = () => {
       <section style={{ marginBottom: '2.5rem' }}>
         <h3 className="section-title">Quick Actions</h3>
         <div className="quick-actions-grid blur-reveal" style={{ animationDelay: '150ms' }}>
-          <button className="action-btn hover-scale" onClick={() => setActiveTab('requests')}>
+          <button className="action-btn hover-scale" onClick={() => window.scrollTo(0, document.body.scrollHeight)}>
             <CheckCircle size={18} color="var(--success-color)" /> Approve Requests
-          </button>
-          <button className="action-btn hover-scale" onClick={() => setActiveTab('employees')}>
-            <Users size={18} color="var(--accent-color)" /> Manage Employees
           </button>
           <button className="action-btn hover-scale" onClick={() => window.print()}>
             <FileText size={18} color="var(--warning-color)" /> Generate Report
           </button>
-          <button className="action-btn hover-scale" onClick={() => { setActiveTab('requests'); setStatusFilter('Approved'); }}>
+          <button className="action-btn hover-scale" onClick={() => { setStatusFilter('Approved'); window.scrollTo(0, document.body.scrollHeight); }}>
             <History size={18} color="var(--text-secondary)" /> View Leave History
           </button>
         </div>
@@ -1011,7 +1006,7 @@ const ManagerDashboard = () => {
               <button 
                 className="action-btn" 
                 style={{ marginTop: '1rem', background: 'transparent', border: '1px dashed var(--border-color)' }}
-                onClick={() => setActiveTab('requests')}
+                onClick={() => window.scrollTo(0, document.body.scrollHeight)}
               >
                 View All Requests
               </button>
@@ -1026,39 +1021,7 @@ const ManagerDashboard = () => {
         </div>
       </div>
 
-      {/* Tab select bar */}
-      <div className="tab-selector" style={{ display: "flex", gap: "0.75rem", marginBottom: "2.5rem" }}>
-        <button
-          className={`btn ${activeTab === "requests" ? "btn-primary" : "btn-secondary"}`}
-          onClick={() => setActiveTab("requests")}
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-          Review Applications ({pendingRequestsCount})
-        </button>
-        <button
-          className={`btn ${activeTab === "employees" ? "btn-primary" : "btn-secondary"}`}
-          onClick={() => setActiveTab("employees")}
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-          Employee Directory ({totalEmployeesCount})
-        </button>
-      </div>
-
       {/* Tab Panels */}
-      {activeTab === "requests" ? (
         /* Leave applications review panel */
         <section className="card-panel" style={{ padding: "2rem" }}>
           <h2 className="section-title" style={{ marginBottom: "1.5rem" }}>
@@ -1385,241 +1348,6 @@ const ManagerDashboard = () => {
             </>
           )}
         </section>
-      ) : (
-        /* Employee Directory panel with mock SaaS extensions */
-        <section className="card-panel" style={{ padding: "2rem" }}>
-          <h2 className="section-title" style={{ marginBottom: "1.5rem" }}>
-            Employee Directory
-          </h2>
-
-          {/* Search and Sort row */}
-          <div className="table-filters-row" style={{ marginBottom: "1.5rem" }}>
-            <div className="search-input-wrapper" style={{ minWidth: "320px" }}>
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search employees by name..."
-                value={employeeSearchQuery}
-                onChange={(e) => setEmployeeSearchQuery(e.target.value)}
-              />
-            </div>
-
-            <div
-              style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
-            >
-              <span
-                style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}
-              >
-                Sort by:
-              </span>
-              <select
-                className="form-control"
-                style={{ width: "auto", minWidth: "150px" }}
-                value={employeeSortBy}
-                onChange={(e) => setEmployeeSortBy(e.target.value)}
-              >
-                <option value="username">Alphabetical (A-Z)</option>
-                <option value="newest">Join Date</option>
-                <option value="annual">Remaining Annual</option>
-              </select>
-            </div>
-          </div>
-
-          {filteredEmployees.length === 0 ? (
-            <div
-              className="empty-state"
-              style={{
-                border: "1px dashed var(--border-color)",
-                borderRadius: "8px",
-                padding: "3.5rem 1rem",
-              }}
-            >
-              <div className="empty-state-icon">👥</div>
-              <h3
-                style={{
-                  fontSize: "1.05rem",
-                  fontWeight: "600",
-                  marginBottom: "0.25rem",
-                }}
-              >
-                No employees found
-              </h3>
-              <p
-                style={{
-                  fontSize: "0.85rem",
-                  color: "var(--text-secondary)",
-                  maxWidth: "320px",
-                  margin: "0.25rem auto",
-                }}
-              >
-                There are no employee registrations in the system matching your
-                search.
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="table-responsive">
-                <table className="custom-table">
-                  <thead>
-                    <tr>
-                      <th>Employee</th>
-                      <th>Job Title</th>
-                      <th>Department</th>
-                      <th>Annual Leave</th>
-                      <th>Sick Leave</th>
-
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentEmployeesRows.map((emp, index) => (
-                      <tr key={emp.id}>
-                        <td>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              textAlign: "left",
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "0.6rem",
-                              }}
-                            >
-                              <span
-                                className="avatar-initials"
-                                style={{
-                                  width: "28px",
-                                  height: "28px",
-                                  fontSize: "0.75rem",
-                                }}
-                              >
-                                {getInitials(emp.username)}
-                              </span>
-                              <span style={{ fontWeight: "600" }}>
-                                {emp.username}
-                              </span>
-                            </div>
-                            <span
-                              style={{
-                                fontSize: "0.75rem",
-                                color: "var(--text-muted)",
-                                marginLeft: "34px",
-                                marginTop: "2px",
-                              }}
-                            >
-                              {emp.username.toLowerCase()}@gcu.in
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <span
-                            style={{ fontSize: "0.85rem", fontWeight: "500" }}
-                          >
-                            {getMockTitle(emp.username, index)}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            style={{
-                              fontSize: "0.85rem",
-                              color: "var(--text-secondary)",
-                            }}
-                          >
-                            {getMockDepartment(emp.username, index)}
-                          </span>
-                        </td>
-                        <td
-                          style={{
-                            fontWeight: "600",
-                            color: "var(--accent-hover)",
-                          }}
-                        >
-                          {emp.annual_leave} days
-                        </td>
-                        <td
-                          style={{
-                            fontWeight: "600",
-                            color: "var(--success-color)",
-                          }}
-                        >
-                          {emp.sick_leave} days
-                        </td>
-                        <td
-                          style={{
-                            fontWeight: "600",
-                            color: "var(--warning-color)",
-                          }}
-                        >
-
-                        </td>
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-secondary btn-sm"
-                            onClick={() => {
-                              // We also attach the index to emp so we can use getMockTitle consistently
-                              setViewEmployeeProfile({ ...emp, _index: index });
-                            }}
-                          >
-                            View Profile
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Pagination Controls */}
-              <div className="pagination-controls">
-                <span>
-                  Showing{" "}
-                  <strong>
-                    {indexOfFirstRow + 1}-
-                    {Math.min(indexOfLastRow, filteredEmployees.length)}
-                  </strong>{" "}
-                  of <strong>{filteredEmployees.length}</strong>
-                </span>
-                <div style={{ display: "flex", gap: "0.4rem" }}>
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(p + 1, totalPages))
-                    }
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </section>
-      )}
 
       {/* Delete Leave Confirmation Modal */}
       {leaveToDelete && (
