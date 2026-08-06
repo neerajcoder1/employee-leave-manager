@@ -4,6 +4,7 @@ import Toast from "../components/Toast";
 import TextHoverEffect from "../components/TextHoverEffect";
 import LeaveBalanceCard from "../components/LeaveBalanceCard";
 import AnimatedNumber from "../components/AnimatedNumber";
+import ThemeToggle from "../components/ThemeToggle";
 
 const popSound = new Audio(
   "https://actions.google.com/sounds/v1/cartoon/pop.ogg",
@@ -533,6 +534,7 @@ const EmployeeDashboard = () => {
           />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+          <ThemeToggle className="theme-toggle-inline" />
           {/* Notification bell dropdown */}
           <div style={{ position: "relative" }}>
             <button

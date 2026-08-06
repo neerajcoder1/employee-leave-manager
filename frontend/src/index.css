@@ -568,7 +568,7 @@ body {
 }
 
 /* ==========================================================================
-   LAYOUT FOUNDATION — card-panel, dashboard, navbar
+   LAYOUT FOUNDATION â€” card-panel, dashboard, navbar
    ========================================================================== */
 
 /* The universal surface card */
@@ -634,7 +634,7 @@ body {
   margin: 0;
 }
 
-/* Leave balance cards row — Centered 2 columns */
+/* Leave balance cards row â€” Centered 2 columns */
 .grid-balances {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -905,7 +905,7 @@ body {
 }
 
 /* ==========================================================================
-   THEME TOGGLE FLOATING BUTTON
+   THEME TOGGLE BUTTONS
    ========================================================================== */
 .theme-toggle-btn {
   position: fixed;
@@ -920,11 +920,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  z-index: 9999;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-fast);
-  padding: 0;
   outline: none;
 }
 .theme-toggle-btn svg {
@@ -1616,10 +1611,8 @@ body {
   }
 }
 
-body.dashboard-active .theme-toggle-btn {
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
+body.dashboard-active .global-theme-toggle {
+  display: none !important;
 }
 
 /* Custom Date Picker Icon */
@@ -1640,3 +1633,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   0% { transform: translateX(0); opacity: 1; }
   100% { transform: translateX(100px); opacity: 0; }
 }
+
+.theme-toggle-inline {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle-inline:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+.theme-toggle-inline svg {
+  color: var(--text-primary);
+}
+

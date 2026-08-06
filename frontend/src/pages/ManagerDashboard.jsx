@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import Toast from "../components/Toast";
 import TextHoverEffect from "../components/TextHoverEffect";
+import ThemeToggle from "../components/ThemeToggle";
 
 // Confetti Animation Engine (Dependency-Free Canvas implementation)
 const fireConfetti = (type) => {
@@ -624,6 +625,7 @@ const ManagerDashboard = () => {
             />
           </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+          <ThemeToggle className="theme-toggle-inline" />
           {/* Notification bell dropdown */}
           <div style={{ position: 'relative' }}>
             <button
