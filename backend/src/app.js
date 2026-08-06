@@ -52,7 +52,7 @@ app.use(
         return callback(null, true);
       }
 
-      if (whitelist.includes(origin)) {
+      if (whitelist.includes(origin) || origin.endsWith('.vercel.app')) {
         return callback(null, true);
       }
 
