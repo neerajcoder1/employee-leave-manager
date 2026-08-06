@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import Toast from "../components/Toast";
 import TextHoverEffect from "../components/TextHoverEffect";
 import ThemeToggle from "../components/ThemeToggle";
+import { 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, 
+  PieChart, Pie, Cell 
+} from 'recharts';
+import { 
+  CheckCircle, Users, History, FileText, XCircle, Clock, Calendar, ShieldAlert 
+} from 'lucide-react';
 
 // Confetti Animation Engine (Dependency-Free Canvas implementation)
 const fireConfetti = (type) => {
@@ -596,6 +603,45 @@ const ManagerDashboard = () => {
     employeeSortBy,
   ]);
 
+  // --- DERIVED SAAS DATA (Activity & Analytics) ---
+  const recentActivity = useMemo(() => {
+    return [...leaves]
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .slice(0, 5);
+  }, [leaves]);
+
+  const leaveTypeDistribution = useMemo(() => {
+    const counts = { 'Annual Leave': 0, 'Sick Leave': 0, 'Maternity Leave': 0 };
+    leaves.forEach(l => {
+      if (counts[l.leave_type] !== undefined) counts[l.leave_type]++;
+    });
+    return [
+      { name: 'Annual', value: counts['Annual Leave'] || 0, color: 'var(--accent-color)' },
+      { name: 'Sick', value: counts['Sick Leave'] || 0, color: 'var(--warning-color)' },
+      { name: 'Maternity', value: counts['Maternity Leave'] || 0, color: 'var(--danger-color)' },
+    ].filter(i => i.value > 0);
+  }, [leaves]);
+
+  const approvalRatio = useMemo(() => {
+    return [
+      { name: 'Approved', value: approvedCount, color: 'var(--success-color)' },
+      { name: 'Rejected', value: rejectedCount, color: 'var(--danger-color)' }
+    ];
+  }, [approvedCount, rejectedCount]);
+
+  const monthlyTrend = useMemo(() => {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const trend = {};
+    leaves.forEach(l => {
+      const d = new Date(l.created_at);
+      const key = `${months[d.getMonth()]} ${d.getFullYear()}`;
+      if (!trend[key]) trend[key] = { name: key, Requests: 0 };
+      trend[key].Requests++;
+    });
+    return Object.values(trend).slice(-6); // Last 6 months
+  }, [leaves]);
+  // ------------------------------------------------
+
   if (loading) {
     return <ManagerSkeleton />;
   }
@@ -728,89 +774,257 @@ const ManagerDashboard = () => {
         </div>
       </header>
 
-      {/* Manager Welcome Banner */}
-      <section
-        className="card-panel blur-reveal"
-        style={{
-          padding: "2.5rem 2rem",
-          textAlign: "center",
-          marginBottom: "2.5rem",
-          background: "var(--bg-card)",
-          border: "1px solid var(--border-color)",
-          borderRadius: "12px",
-        }}
-      >
-        <div style={{ maxWidth: "440px", margin: "1rem auto", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <h2 
-            className="welcome-animation" 
-            style={{ 
-              marginBottom: "-0.5rem", 
-              fontSize: "1.2rem", 
-              fontWeight: "400", 
-              letterSpacing: "2px", 
-              textTransform: "uppercase" 
-            }}
-          >
-            Welcome Back,
-          </h2>
-          <TextHoverEffect text="MANAGER" strokeWidth={0.5} opacity={0.75} />
-        </div>
-      </section>
-
-      {/* Summary metric cards (SaaS Dashboard layout) */}
-      <section className="metrics-row">
-        <div
-          className="card-panel metric-mini-card"
-          style={{ borderLeft: "3px solid var(--warning-color)" }}
-        >
-          <div className="metric-mini-title">Pending Requests</div>
-          <div
-            className="metric-mini-value"
-            style={{ color: "var(--warning-color)" }}
-          >
-            {pendingRequestsCount}
+      {/* SaaS Hero Section */}
+      <section className="hero-grid" style={{ marginBottom: "2.5rem" }}>
+        <div className="card-panel blur-reveal" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+            <h2 className="saas-heading welcome-animation">
+              Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'},<br />
+              Admin Manager
+            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0, 193, 106, 0.1)', padding: '4px 10px', borderRadius: '20px', fontSize: '0.75rem', color: 'var(--success-color)', fontWeight: '600' }}>
+              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--success-color)', animation: 'pulseScale 2s infinite' }}></div>
+              Backend Connected
+            </div>
           </div>
+          <p className="saas-subtitle">
+            Manage employee leave requests, monitor team activity and track organizational leave statistics.
+          </p>
         </div>
 
-        <div
-          className="card-panel metric-mini-card"
-          style={{ borderLeft: "3px solid var(--success-color)" }}
-        >
-          <div className="metric-mini-title">Total Approved</div>
-          <div
-            className="metric-mini-value"
-            style={{ color: "var(--success-color)" }}
-          >
-            {approvedCount}
-          </div>
-        </div>
-
-        <div
-          className="card-panel metric-mini-card"
-          style={{ borderLeft: "3px solid var(--danger-color)" }}
-        >
-          <div className="metric-mini-title">Total Rejected</div>
-          <div
-            className="metric-mini-value"
-            style={{ color: "var(--danger-color)" }}
-          >
-            {rejectedCount}
-          </div>
-        </div>
-
-        <div
-          className="card-panel metric-mini-card"
-          style={{ borderLeft: "3px solid var(--accent-color)" }}
-        >
-          <div className="metric-mini-title">Total Employees</div>
-          <div
-            className="metric-mini-value"
-            style={{ color: "var(--accent-hover)" }}
-          >
-            {totalEmployeesCount}
+        <div className="card-panel blur-reveal" style={{ animationDelay: '100ms', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <h3 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem', fontWeight: '600' }}>
+            Today's Overview
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>Pending Requests</span>
+              <span style={{ fontWeight: '600', color: 'var(--warning-color)' }}>{pendingRequestsCount}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>Approved Today</span>
+              <span style={{ fontWeight: '600', color: 'var(--success-color)' }}>{recentActivity.filter(a => a.status === 'Approved' && new Date(a.updated_at).toDateString() === new Date().toDateString()).length}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>Total Employees</span>
+              <span style={{ fontWeight: '600', color: 'var(--accent-color)' }}>{totalEmployeesCount}</span>
+            </div>
+            <div style={{ marginTop: '0.5rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Quick Actions */}
+      <section style={{ marginBottom: '2.5rem' }}>
+        <h3 className="section-title">Quick Actions</h3>
+        <div className="quick-actions-grid blur-reveal" style={{ animationDelay: '150ms' }}>
+          <button className="action-btn hover-scale" onClick={() => setActiveTab('requests')}>
+            <CheckCircle size={18} color="var(--success-color)" /> Approve Requests
+          </button>
+          <button className="action-btn hover-scale" onClick={() => setActiveTab('employees')}>
+            <Users size={18} color="var(--accent-color)" /> Manage Employees
+          </button>
+          <button className="action-btn hover-scale" onClick={() => window.print()}>
+            <FileText size={18} color="var(--warning-color)" /> Generate Report
+          </button>
+          <button className="action-btn hover-scale" onClick={() => { setActiveTab('requests'); setStatusFilter('Approved'); }}>
+            <History size={18} color="var(--text-secondary)" /> View Leave History
+          </button>
+        </div>
+      </section>
+
+      {/* Enhanced KPI Cards */}
+      <section className="metrics-row blur-reveal" style={{ animationDelay: '200ms', marginBottom: '2.5rem' }}>
+        <div className="card-panel metric-mini-card hover-glow" style={{ borderLeft: "3px solid var(--warning-color)", position: 'relative', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div className="metric-mini-title">Pending Requests</div>
+              <div className="metric-mini-value" style={{ color: "var(--warning-color)" }}>{pendingRequestsCount}</div>
+            </div>
+            <div style={{ padding: '8px', background: 'rgba(255, 171, 0, 0.1)', borderRadius: '8px' }}>
+              <Clock size={20} color="var(--warning-color)" />
+            </div>
+          </div>
+          <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Needs manager approval</div>
+        </div>
+
+        <div className="card-panel metric-mini-card hover-glow" style={{ borderLeft: "3px solid var(--success-color)" }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div className="metric-mini-title">Approved Leaves</div>
+              <div className="metric-mini-value" style={{ color: "var(--success-color)" }}>{approvedCount}</div>
+            </div>
+            <div style={{ padding: '8px', background: 'rgba(0, 193, 106, 0.1)', borderRadius: '8px' }}>
+              <CheckCircle size={20} color="var(--success-color)" />
+            </div>
+          </div>
+          <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Total approved</div>
+        </div>
+
+        <div className="card-panel metric-mini-card hover-glow" style={{ borderLeft: "3px solid var(--danger-color)" }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div className="metric-mini-title">Rejected Leaves</div>
+              <div className="metric-mini-value" style={{ color: "var(--danger-color)" }}>{rejectedCount}</div>
+            </div>
+            <div style={{ padding: '8px', background: 'rgba(255, 71, 87, 0.1)', borderRadius: '8px' }}>
+              <XCircle size={20} color="var(--danger-color)" />
+            </div>
+          </div>
+          <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Total rejected</div>
+        </div>
+
+        <div className="card-panel metric-mini-card hover-glow" style={{ borderLeft: "3px solid var(--accent-color)" }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div className="metric-mini-title">Employees</div>
+              <div className="metric-mini-value" style={{ color: "var(--accent-hover)" }}>{totalEmployeesCount}</div>
+            </div>
+            <div style={{ padding: '8px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '8px' }}>
+              <Users size={20} color="var(--accent-color)" />
+            </div>
+          </div>
+          <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Active employees</div>
+        </div>
+      </section>
+
+      {/* Main Dashboard Grid (Analytics + Activity) */}
+      <div className="dashboard-main-grid blur-reveal" style={{ animationDelay: '250ms', marginBottom: '2.5rem' }}>
+        
+        {/* Left Column: Analytics */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          
+          <div className="card-panel" style={{ padding: '1.5rem' }}>
+            <h3 className="section-title">Monthly Leave Requests</h3>
+            {monthlyTrend.length > 0 ? (
+              <div style={{ width: '100%', height: 250 }}>
+                <ResponsiveContainer>
+                  <BarChart data={monthlyTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" vertical={false} />
+                    <XAxis dataKey="name" stroke="var(--text-secondary)" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke="var(--text-secondary)" fontSize={12} tickLine={false} axisLine={false} />
+                    <RechartsTooltip 
+                      contentStyle={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                      cursor={{ fill: 'var(--border-color)', opacity: 0.4 }}
+                    />
+                    <Bar dataKey="Requests" fill="var(--accent-color)" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="empty-state">
+                <Calendar size={40} />
+                <h4>No Trend Data</h4>
+                <p>Not enough leave history to generate monthly trends.</p>
+              </div>
+            )}
+          </div>
+
+          <div className="analytics-grid">
+            <div className="card-panel" style={{ padding: '1.5rem' }}>
+              <h3 className="section-title" style={{ fontSize: '1rem' }}>Approval vs Rejection</h3>
+              {approvedCount > 0 || rejectedCount > 0 ? (
+                <div style={{ width: '100%', height: 200 }}>
+                  <ResponsiveContainer>
+                    <PieChart>
+                      <Pie data={approvalRatio} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" stroke="none">
+                        {approvalRatio.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <RechartsTooltip contentStyle={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--success-color)' }}></div> Approved</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--danger-color)' }}></div> Rejected</div>
+                  </div>
+                </div>
+              ) : (
+                <div className="empty-state" style={{ padding: '1.5rem 1rem' }}>
+                  <ShieldAlert size={32} />
+                  <h4 style={{ fontSize: '0.9rem' }}>No Data</h4>
+                </div>
+              )}
+            </div>
+
+            <div className="card-panel" style={{ padding: '1.5rem' }}>
+              <h3 className="section-title" style={{ fontSize: '1rem' }}>Leave Types</h3>
+              {leaveTypeDistribution.length > 0 ? (
+                <div style={{ width: '100%', height: 200 }}>
+                  <ResponsiveContainer>
+                    <PieChart>
+                      <Pie data={leaveTypeDistribution} cx="50%" cy="50%" outerRadius={80} dataKey="value" stroke="none">
+                        {leaveTypeDistribution.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <RechartsTooltip contentStyle={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '8px' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <div className="empty-state" style={{ padding: '1.5rem 1rem' }}>
+                  <ShieldAlert size={32} />
+                  <h4 style={{ fontSize: '0.9rem' }}>No Data</h4>
+                </div>
+              )}
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right Column: Recent Activity */}
+        <div className="card-panel" style={{ padding: '1.5rem', height: '100%' }}>
+          <h3 className="section-title">Recent Activity</h3>
+          
+          {recentActivity.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {recentActivity.map((activity, index) => {
+                const actionColors = {
+                  'Pending': 'var(--warning-color)',
+                  'Approved': 'var(--success-color)',
+                  'Rejected': 'var(--danger-color)',
+                };
+                const color = actionColors[activity.status] || 'var(--text-secondary)';
+                
+                let text = '';
+                if (activity.status === 'Pending') text = `${activity.username} submitted a leave request`;
+                else if (activity.status === 'Approved') text = `Manager approved ${activity.username}'s request`;
+                else text = `Manager rejected ${activity.username}'s request`;
+
+                return (
+                  <div key={activity.id || index} className="activity-item hover-scale">
+                    <div className="activity-avatar" style={{ background: `rgba(255, 255, 255, 0.05)`, border: `1px solid ${color}`, color: color }}>
+                      {activity.username.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div className="activity-content">
+                      <div className="activity-title">{text}</div>
+                      <div className="activity-time">{new Date(activity.created_at).toLocaleString()}</div>
+                    </div>
+                  </div>
+                );
+              })}
+              
+              <button 
+                className="action-btn" 
+                style={{ marginTop: '1rem', background: 'transparent', border: '1px dashed var(--border-color)' }}
+                onClick={() => setActiveTab('requests')}
+              >
+                View All Requests
+              </button>
+            </div>
+          ) : (
+            <div className="empty-state">
+              <CheckCircle size={40} color="var(--success-color)" style={{ opacity: 0.5 }} />
+              <h4>All Caught Up</h4>
+              <p>There is no recent activity in the system right now.</p>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Tab select bar */}
       <div className="tab-selector" style={{ display: "flex", gap: "0.75rem", marginBottom: "2.5rem" }}>
