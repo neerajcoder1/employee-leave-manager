@@ -199,6 +199,20 @@ body {
   border-color: hsl(346.8, 77.2%, 45%);
 }
 
+.btn-outline-danger {
+  background-color: transparent;
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.btn-outline-danger::before {
+  background-color: var(--danger-color);
+}
+
+.btn-outline-danger:hover:not(:disabled) {
+  color: white;
+}
+
 .btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;

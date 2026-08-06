@@ -1864,9 +1864,8 @@ const ManagerDashboard = () => {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger btn-sm"
+                  className="btn btn-outline-danger btn-sm"
                   onClick={logout}
-                  style={{ background: 'transparent', borderColor: 'var(--danger-color)', color: 'var(--danger-color)' }}
                 >
                   Sign Out
                 </button>
