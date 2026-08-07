@@ -954,15 +954,38 @@ const ManagerDashboard = () => {
               marginBottom: "1rem",
             }}
           >
-            <h2 className="saas-heading welcome-animation">
+            <h2 className="saas-heading welcome-animation" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.5rem' }}>
               Good{" "}
               {new Date().getHours() < 12
                 ? "Morning"
                 : new Date().getHours() < 18
                   ? "Afternoon"
                   : "Evening"}
-              ,<br />
-              Manager
+              ,
+              <br />
+              <span style={{ color: 'var(--success-color)' }}>Manager</span>
+              <svg 
+                width="32" 
+                height="32" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="waving-hand"
+                style={{
+                  color: '#fbbf24',
+                  fill: '#fbbf24',
+                  animation: 'wave 2.5s infinite',
+                  transformOrigin: '70% 70%'
+                }}
+              >
+                <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                <path d="M14 4a2 2 0 0 0-4 0v7"></path>
+                <path d="M10 4a2 2 0 0 0-4 0v7"></path>
+                <path d="M6 7a2 2 0 0 0-4 0v6c0 5 4 8 10 8 4 0 8-3 9-7l1-5a2 2 0 0 0-2-2H18"></path>
+              </svg>
             </h2>
             <div
               style={{
