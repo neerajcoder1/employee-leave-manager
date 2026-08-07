@@ -969,14 +969,12 @@ const ManagerDashboard = () => {
                 height="32" 
                 viewBox="0 0 24 24" 
                 fill="none" 
-                stroke="currentColor" 
+                stroke="#fbbf24" 
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
                 className="waving-hand"
                 style={{
-                  color: '#fbbf24',
-                  fill: '#fbbf24',
                   animation: 'wave 2.5s infinite',
                   transformOrigin: '70% 70%'
                 }}
